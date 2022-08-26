@@ -1,8 +1,8 @@
-package com.kursor.roombookkeeping.entities
+package com.kursor.roombookkeeping.model
 
 class Price(
     val name: String,
-    value: Int,
+    val value: Int,
     val persons: List<Person>
 ) {
 

@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "RoomBookkeeping"
-include ':app'
+include(":app", ":data", ":domain", ":model")
