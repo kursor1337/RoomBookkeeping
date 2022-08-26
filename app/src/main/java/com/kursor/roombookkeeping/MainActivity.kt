@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.kursor.roombookkeeping.presentation.layouts.ReceiptListLayout
+import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptListLayout
 import com.kursor.roombookkeeping.ui.theme.RoomBookkeepingTheme
 
 class MainActivity : ComponentActivity() {

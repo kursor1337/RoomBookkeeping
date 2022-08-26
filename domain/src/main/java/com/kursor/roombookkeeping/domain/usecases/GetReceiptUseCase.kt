@@ -7,6 +7,6 @@ class GetReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(id: Long): Receipt? = receiptRepository.get(id)
+    suspend operator fun invoke(id: Long): Receipt? = receiptRepository.get(id)
 
 }

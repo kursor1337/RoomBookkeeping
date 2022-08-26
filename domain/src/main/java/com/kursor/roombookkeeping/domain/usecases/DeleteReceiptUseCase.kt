@@ -7,6 +7,6 @@ class DeleteReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(receipt: Receipt) = receiptRepository.delete(receipt)
+    suspend operator fun invoke(receipt: Receipt) = receiptRepository.delete(receipt)
 
 }

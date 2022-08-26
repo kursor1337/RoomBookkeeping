@@ -7,6 +7,6 @@ class UpdateReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(receipt: Receipt) = receiptRepository.edit(receipt)
+    suspend operator fun invoke(receipt: Receipt) = receiptRepository.edit(receipt)
 
 }

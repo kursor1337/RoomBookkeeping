@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.presentation.layouts
+package com.kursor.roombookkeeping.presentation.layouts.receipts
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun ReceiptLayout(receipt: com.kursor.roombookkeeping.model.Receipt) {
+fun ReceiptLayout(receipt: Receipt) {
     Column {
         Text(
             text = receipt.name,
@@ -34,12 +34,15 @@ fun ReceiptLayout(receipt: com.kursor.roombookkeeping.model.Receipt) {
 @Preview
 @Composable
 fun PreviewReceiptLayout() {
-    ReceiptLayout(receipt = com.kursor.roombookkeeping.model.Receipt(
-        name = "Default",
-        dateTime = Date(System.currentTimeMillis()),
-        priceList = emptyList(),
-        persons = emptyList()
-    )
+    val time = System.currentTimeMillis()
+    ReceiptLayout(
+        receipt = Receipt(
+            id = time,
+            name = "Default",
+            dateTime = Date(time),
+            priceList = emptyList(),
+            persons = emptyList()
+        )
     )
 }
 

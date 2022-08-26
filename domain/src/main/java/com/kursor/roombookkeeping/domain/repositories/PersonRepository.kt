@@ -4,14 +4,14 @@ import com.kursor.roombookkeeping.model.Person
 
 interface PersonRepository {
 
-    fun get(id: Long): Person?
+    suspend fun get(id: Long): Person?
 
-    fun getAll(): List<Person>
+    suspend fun getAll(): List<Person>
 
-    fun save(person: Person)
+    suspend fun save(person: Person)
 
-    fun edit(person: Person)
+    suspend fun edit(person: Person)
 
-    fun delete(person: Person)
+    suspend fun delete(person: Person)
 
 }

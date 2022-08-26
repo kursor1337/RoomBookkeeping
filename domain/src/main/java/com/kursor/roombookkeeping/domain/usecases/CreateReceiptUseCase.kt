@@ -7,6 +7,6 @@ class CreateReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(receipt: Receipt) = receiptRepository.save(receipt)
+    suspend operator fun invoke(receipt: Receipt) = receiptRepository.save(receipt)
 
 }

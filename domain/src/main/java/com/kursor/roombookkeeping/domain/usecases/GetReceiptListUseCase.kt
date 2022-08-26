@@ -7,6 +7,6 @@ class GetReceiptListUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(): List<Receipt> = receiptRepository.getAll()
+    suspend operator fun invoke(): List<Receipt> = receiptRepository.getAll()
 
 }
