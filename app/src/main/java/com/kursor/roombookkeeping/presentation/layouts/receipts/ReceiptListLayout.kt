@@ -14,7 +14,7 @@ fun ReceiptListLayout(receiptListViewModel: ReceiptListViewModel = getViewModel(
 
     LazyColumn {
         items(receiptList.value) { receipt ->
-            ReceiptLayout(receipt = receipt)
+            ReceiptListItemLayout(receipt = receipt)
         }
     }
 }

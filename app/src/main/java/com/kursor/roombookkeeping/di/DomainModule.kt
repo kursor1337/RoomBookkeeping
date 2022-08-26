@@ -1,6 +1,6 @@
 package com.kursor.roombookkeeping.di
 
-import com.kursor.roombookkeeping.domain.usecases.*
+import com.kursor.roombookkeeping.domain.usecases.receipt.*
 import org.koin.dsl.module
 
 val domainModule = module {

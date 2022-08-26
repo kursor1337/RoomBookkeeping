@@ -1,12 +1,12 @@
-package com.kursor.roombookkeeping.domain.usecases
+package com.kursor.roombookkeeping.domain.usecases.receipt
 
 import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
 import com.kursor.roombookkeeping.model.Receipt
 
-class CreateReceiptUseCase(
+class GetReceiptListUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    suspend operator fun invoke(receipt: Receipt) = receiptRepository.save(receipt)
+    suspend operator fun invoke(): List<Receipt> = receiptRepository.getAll()
 
 }
