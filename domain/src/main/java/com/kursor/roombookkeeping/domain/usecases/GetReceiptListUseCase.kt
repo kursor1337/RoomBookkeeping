@@ -1,9 +1,12 @@
 package com.kursor.roombookkeeping.domain.usecases
 
-class GetReceiptListUseCase {
+import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
+import com.kursor.roombookkeeping.model.Receipt
 
-    operator fun invoke(): List<Receipt> {
+class GetReceiptListUseCase(
+    val receiptRepository: ReceiptRepository
+) {
 
-    }
+    operator fun invoke(): List<Receipt> = receiptRepository.getAll()
 
 }
