@@ -6,10 +6,10 @@ import com.kursor.roombookkeeping.data.database.entities.PersonEntity
 @Dao
 interface PersonDao {
 
-    @Query("SELECT * FROM person")
+    @Query("SELECT * FROM PersonEntity")
     suspend fun getAll(): List<PersonEntity>
 
-    @Query("SELECT * FROM person WHERE id LIKE :id LIMIT 1")
+    @Query("SELECT * FROM PersonEntity WHERE id LIKE :id LIMIT 1")
     suspend fun get(id: Long): PersonEntity?
 
     @Insert

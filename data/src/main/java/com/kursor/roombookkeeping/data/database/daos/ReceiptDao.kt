@@ -6,10 +6,10 @@ import com.kursor.roombookkeeping.data.database.entities.ReceiptEntity
 @Dao
 interface ReceiptDao {
 
-    @Query("SELECT * FROM receipt")
+    @Query("SELECT * FROM ReceiptEntity")
     suspend fun getAll(): List<ReceiptEntity>
 
-    @Query("SELECT * FROM receipt WHERE id LIKE :id")
+    @Query("SELECT * FROM ReceiptEntity WHERE id LIKE :id")
     suspend fun get(id: Long): ReceiptEntity?
 
     @Insert
