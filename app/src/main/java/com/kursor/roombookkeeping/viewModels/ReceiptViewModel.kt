@@ -4,13 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.add.AddPriceToReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.crud.UpdateReceiptUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.delete.DeletePriceFromReceiptUseCase
-import com.kursor.roombookkeeping.model.Person
+import com.kursor.roombookkeeping.domain.usecases.receipt.DeletePriceFromReceiptUseCase
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.launch

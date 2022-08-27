@@ -22,16 +22,14 @@ class ReceiptRepositoryImpl(
         id = this.id,
         name = this.name,
         dateTime = this.dateTime,
-        priceList = this.priceList,
-        persons = this.persons
+        priceList = this.priceList
     )
 
     private fun Receipt.convertToDatabaseEntity(): ReceiptEntity = ReceiptEntity(
         id = this.id,
         name = this.name,
         dateTime = this.dateTime,
-        priceList = this.priceList,
-        persons = this.persons
+        priceList = this.priceList
     )
 
 }

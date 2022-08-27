@@ -20,8 +20,7 @@ class EditPriceUseCase(
                     dateTime = receipt.dateTime,
                     receipt.priceList.toMutableList().apply {
                         set(index, price)
-                    },
-                    persons = receipt.persons
+                    }
                 )
             )
         }

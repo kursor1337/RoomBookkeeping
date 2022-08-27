@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.domain.usecases.receipt.delete
+package com.kursor.roombookkeeping.domain.usecases.receipt
 
 import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
 import com.kursor.roombookkeeping.model.Price
@@ -6,7 +6,7 @@ import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DeletePriceFromReceiptUseCase(
+class AddPriceToReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
@@ -18,9 +18,8 @@ class DeletePriceFromReceiptUseCase(
                     name = receipt.name,
                     dateTime = receipt.dateTime,
                     priceList = receipt.priceList.toMutableList().apply {
-                        remove(price)
-                    },
-                    persons = receipt.persons
+                        add(price)
+                    }
                 )
             )
         }

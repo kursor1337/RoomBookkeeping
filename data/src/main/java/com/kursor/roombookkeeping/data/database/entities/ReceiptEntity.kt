@@ -12,6 +12,5 @@ data class ReceiptEntity(
     @PrimaryKey val id: Long,
     @ColumnInfo val name: String,
     @ColumnInfo val dateTime: Date,
-    @ColumnInfo val priceList: List<Price>,
-    @ColumnInfo val persons: List<Person>
+    @ColumnInfo val priceList: List<Price>
 )

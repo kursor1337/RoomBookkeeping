@@ -9,10 +9,15 @@ class Receipt(
     val priceList: List<Price>,
 ) {
 
-    val persons: List<Price>
-    get() {
-        val result = mutableListOf<Person>()
-        priceList.
-    }
+    val persons: List<Person>
+        get() {
+            val result = mutableSetOf<Person>()
+            priceList.forEach { price ->
+                price.persons.forEach { person ->
+                    result.add(person)
+                }
+            }
+            return result.toList()
+        }
 
 }

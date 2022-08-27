@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.add.AddPriceToReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
@@ -46,16 +46,11 @@ class PriceViewModel(
     }
 
     fun addPerson(person: Person) {
-        submit()
-        viewModelScope.launch {
-            addPersonToPriceUseCase(receipt, Price(
-                name
-            ))
-        }
+        _personsLiveData.value = _personsLiveData.value!!.plus(person)
     }
 
     fun deletePerson(person: Person) {
-
+        _personsLiveData.value = _personsLiveData.value!!.minus(person)
     }
 
     fun submit() {

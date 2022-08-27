@@ -1,26 +1,24 @@
-package com.kursor.roombookkeeping.domain.usecases.receipt.add
+package com.kursor.roombookkeeping.domain.usecases.receipt
 
 import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
-import com.kursor.roombookkeeping.model.Person
+import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import sun.rmi.server.Dispatcher
 
-class AddPersonToReceiptUseCase(
+class DeletePriceFromReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 
-    suspend operator fun invoke(receipt: Receipt, person: Person) {
+    suspend operator fun invoke(receipt: Receipt, price: Price) {
         withContext(Dispatchers.IO) {
             receiptRepository.edit(
                 Receipt(
                     id = receipt.id,
                     name = receipt.name,
                     dateTime = receipt.dateTime,
-                    priceList = receipt.priceList,
-                    persons = receipt.persons.toMutableList().apply {
-                        add(person)
+                    priceList = receipt.priceList.toMutableList().apply {
+                        remove(price)
                     }
                 )
             )
