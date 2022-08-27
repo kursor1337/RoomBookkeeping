@@ -3,7 +3,7 @@ val compose_version: String by project
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
 }
 
 android {

@@ -40,8 +40,7 @@ fun PreviewReceiptLayout() {
             id = time,
             name = "Default",
             dateTime = Date(time),
-            priceList = emptyList(),
-            persons = emptyList()
+            priceList = emptyList()
         )
     )
 }

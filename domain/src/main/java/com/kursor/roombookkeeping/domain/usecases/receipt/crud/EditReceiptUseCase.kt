@@ -5,7 +5,7 @@ import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UpdateReceiptUseCase(
+class EditReceiptUseCase(
     val receiptRepository: ReceiptRepository
 ) {
 

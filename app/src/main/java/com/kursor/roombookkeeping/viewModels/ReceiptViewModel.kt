@@ -4,47 +4,58 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.DeletePriceFromReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.crud.CreateReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.crud.EditReceiptUseCase
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.launch
 
 class ReceiptViewModel(
-    val receiptId: Long,
-    val getReceiptUseCase: GetReceiptUseCase,
-    val addPriceToReceiptUseCase: AddPriceToReceiptUseCase,
-    val deletePriceFromReceiptUseCase: DeletePriceFromReceiptUseCase
+    val createReceiptUseCase: CreateReceiptUseCase,
+    val updateReceiptUseCase: EditReceiptUseCase,
+    val getReceiptUseCase: GetReceiptUseCase
 ) : ViewModel() {
 
     private val _priceListLiveData = MutableLiveData<List<Price>>()
     val priceListLiveData: LiveData<List<Price>> get() = _priceListLiveData
 
-    lateinit var receipt: Receipt
+    private val _nameLiveData = MutableLiveData<String>()
+    val nameLiveData: LiveData<String> get() = _nameLiveData
 
-    init {
-        updateReceipt()
-    }
+    var receiptId: Int? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                getReceiptData()
+            }
+        }
 
-    fun updateReceipt() {
+    var receipt: Receipt? = null
+
+    private fun getReceiptData() {
         viewModelScope.launch {
-            receipt = getReceiptUseCase(receiptId)!!
+            val id = receipt?.id ?: return@launch
+            receipt = getReceiptUseCase(id)!!
+            _nameLiveData.value = receipt!!.name
+            _priceListLiveData.value = receipt!!.priceList
         }
     }
 
 
     fun deletePrice(price: Price) {
         viewModelScope.launch {
-            deletePriceFromReceiptUseCase(receipt, price)
+            _priceListLiveData.value = _priceListLiveData.value!!.minus(price)
         }
 
     }
 
-    fun updatePriceList(index: Int) {
+    fun submit() {
+        if (receiptId == null) return
         viewModelScope.launch {
-            updateReceipt()
-            _priceListLiveData.value = receipt.priceList
+            if (receipt == null) {
+                createReceiptUseCase(receipt!!)
+            }
         }
     }
 
