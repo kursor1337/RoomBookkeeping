@@ -8,13 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import com.kursor.roombookkeeping.model.Receipt
 import com.kursor.roombookkeeping.viewModels.ReceiptViewModel
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun ReceiptLayout(receipt: Receipt) {
-
-    val receiptViewModel by viewModel<ReceiptViewModel> { parametersOf(receipt) }
+fun ReceiptLayout(receiptViewModel: ReceiptViewModel = getViewModel()) {
 
     val name = receiptViewModel.nameLiveData.observeAsState(initial = "")
     val priceList = receiptViewModel.priceListLiveData.observeAsState(initial = emptyList())

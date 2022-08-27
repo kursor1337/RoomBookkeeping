@@ -8,6 +8,7 @@ import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
@@ -18,8 +19,7 @@ class PriceViewModel(
     val editPriceUseCase: EditPriceUseCase,
     val addPersonToPriceUseCase: AddPersonToPriceUseCase,
     val deletePersonFromPriceUseCase: DeletePersonFromPriceUseCase,
-    val receipt: Receipt,
-    val price: Price? = null
+    val getReceiptUseCase: GetReceiptUseCase
 ) : ViewModel() {
 
     private val _nameLiveData = MutableLiveData<String>()
@@ -31,10 +31,36 @@ class PriceViewModel(
     private val _personsLiveData = MutableLiveData<List<Person>>()
     val personsLiveData: LiveData<List<Person>> get() = _personsLiveData
 
+    var receiptId: Long? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                loadReceiptData()
+            }
+        }
+
+    lateinit var receipt: Receipt
+
+    var priceIndex: Int? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                price = receipt.priceList[value]
+            }
+        }
+
+    var price: Price? = null
+
     init {
         _nameLiveData.value = price?.name ?: ""
         _valueLiveData.value = price?.value ?: 0
         _personsLiveData.value = price?.persons ?: mutableListOf()
+    }
+
+    fun loadReceiptData() {
+        viewModelScope.launch {
+            receipt = getReceiptUseCase(receiptId!!)!!
+        }
     }
 
     fun changeName(newName: String) {
