@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kursor.roombookkeeping.domain.usecases.receipt.GetReceiptListUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptListUseCase
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.launch
 
