@@ -6,19 +6,21 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.viewModels.person.PersonViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PersonLayout(
+    navController: NavController,
     personId: Long,
-    personViewModel: PersonViewModel = getViewModel()
+    personViewModel: PersonViewModel = getViewModel<PersonViewModel>().also {
+        it.loadData(personId)
+    }
 ) {
 
     val name = personViewModel.nameLiveData.observeAsState(initial = "")
-
-    personViewModel.loadData(personId)
 
     TextField(value = name.value, onValueChange = personViewModel::changeName)
 

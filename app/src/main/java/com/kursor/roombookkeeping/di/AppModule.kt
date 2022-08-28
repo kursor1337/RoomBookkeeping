@@ -1,5 +1,7 @@
 package com.kursor.roombookkeeping.di
 
+import com.kursor.roombookkeeping.viewModels.person.PersonListViewModel
+import com.kursor.roombookkeeping.viewModels.person.PersonViewModel
 import com.kursor.roombookkeeping.viewModels.price.PriceViewModel
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptListViewModel
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
@@ -9,7 +11,10 @@ import org.koin.dsl.module
 val appModule = module {
 
     viewModel {
-        ReceiptListViewModel(getReceiptListUseCase = get())
+        ReceiptListViewModel(
+            getReceiptListUseCase = get(),
+            deleteReceiptUseCase = get()
+        )
     }
 
     viewModel {
@@ -26,7 +31,23 @@ val appModule = module {
             editPriceUseCase = get(),
             addPersonToPriceUseCase = get(),
             deletePersonFromPriceUseCase = get(),
-            getReceiptUseCase = get()
+            getReceiptUseCase = get(),
+            getPersonListUseCase = get()
+        )
+    }
+
+    viewModel {
+        PersonViewModel(
+            getPersonUseCase = get(),
+            addPersonUseCase = get(),
+            editPersonNameUseCase = get()
+        )
+    }
+
+    viewModel {
+        PersonListViewModel(
+            getPersonListUseCase = get(),
+            deletePersonUseCase = get()
         )
     }
 

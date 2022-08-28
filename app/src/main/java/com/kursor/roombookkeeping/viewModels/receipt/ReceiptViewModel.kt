@@ -27,6 +27,7 @@ class ReceiptViewModel(
     private var receipt: Receipt? = null
 
     fun loadData(receiptId: Long) {
+        if (receiptId == -1L) return
         viewModelScope.launch {
             receipt = getReceiptUseCase(receiptId)!!
             _nameLiveData.value = receipt!!.name

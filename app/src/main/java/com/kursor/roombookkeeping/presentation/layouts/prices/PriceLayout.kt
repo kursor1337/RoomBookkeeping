@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.presentation.layouts.receipts
+package com.kursor.roombookkeeping.presentation.layouts.prices
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,15 +11,19 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.viewModels.price.PriceViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PriceLayout(
+    navController: NavController,
     receiptId: Long,
     priceIndex: Int,
-    priceViewModel: PriceViewModel = getViewModel()
+    priceViewModel: PriceViewModel = getViewModel<PriceViewModel>().also {
+        it.loadData(receiptId, priceIndex)
+    }
 ) {
 
     val name = priceViewModel.nameLiveData.observeAsState(initial = "")
@@ -27,8 +31,6 @@ fun PriceLayout(
     val persons = priceViewModel.selectedPersonIndexesLiveData.observeAsState(initial = emptyList())
     val wholePersonList =
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
-
-    priceViewModel.loadData(receiptId, priceIndex)
 
     Row {
         Column {

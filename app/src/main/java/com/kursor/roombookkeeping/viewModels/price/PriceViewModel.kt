@@ -40,7 +40,7 @@ class PriceViewModel(
     var price: Price? = null
 
     fun loadData(receiptId: Long, priceIndex: Int) {
-        if (::receipt.isInitialized) return
+        if (priceIndex == -1) return
         viewModelScope.launch {
             _wholePersonListLiveData.value = getPersonListUseCase()
 

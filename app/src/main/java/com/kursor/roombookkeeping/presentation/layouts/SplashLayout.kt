@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.presentation.layouts.receipts
+package com.kursor.roombookkeeping.presentation.layouts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

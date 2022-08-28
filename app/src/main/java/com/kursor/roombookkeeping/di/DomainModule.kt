@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.di
 
+import com.kursor.roombookkeeping.domain.usecases.person.*
 import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
@@ -57,6 +58,26 @@ val domainModule = module {
             receiptRepository = get(),
             receipt = parameters.get()
         )
+    }
+
+    factory {
+        AddPersonUseCase(personRepository = get())
+    }
+
+    factory {
+        DeletePersonUseCase(personRepository = get())
+    }
+
+    factory {
+        EditPersonNameUseCase(personRepository = get())
+    }
+
+    factory {
+        GetPersonListUseCase(personRepository = get())
+    }
+
+    factory {
+        GetPersonUseCase(personRepository = get())
     }
 
 }

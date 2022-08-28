@@ -6,17 +6,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.kursor.roombookkeeping.presentation.layouts.receipts.PriceLayout
+import com.kursor.roombookkeeping.presentation.layouts.persons.PersonLayout
+import com.kursor.roombookkeeping.presentation.layouts.persons.PersonListLayout
+import com.kursor.roombookkeeping.presentation.layouts.prices.PriceLayout
 import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptLayout
 import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptListLayout
-import com.kursor.roombookkeeping.presentation.layouts.receipts.SplashScreenLayout
 
 @Composable
 fun MainLayout() {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Layouts.SplashLayout.route) {
+    NavHost(navController = navController, startDestination = Layouts.ReceiptListLayout.route) {
 
         composable(Layouts.SplashLayout.route) {
             SplashScreenLayout()
@@ -25,7 +26,7 @@ fun MainLayout() {
         composable(
             route = Layouts.ReceiptListLayout.start
         ) {
-            ReceiptListLayout()
+            ReceiptListLayout(navController = navController)
         }
 
         composable(
@@ -36,6 +37,7 @@ fun MainLayout() {
         ) {
             val receiptId = it.arguments?.getLong(Layouts.Args.RECEIPT_ID) ?: -1
             ReceiptLayout(
+                navController = navController,
                 receiptId = receiptId
             )
         }
@@ -49,7 +51,28 @@ fun MainLayout() {
         ) {
             val receiptId = it.arguments!!.getLong(Layouts.Args.RECEIPT_ID)
             val priceIndex = it.arguments?.getInt(Layouts.Args.PRICE_INDEX) ?: -1
-            PriceLayout(receiptId = receiptId, priceIndex = priceIndex)
+            PriceLayout(
+                navController = navController,
+                receiptId = receiptId,
+                priceIndex = priceIndex
+            )
         }
+
+        composable(
+            route = Layouts.PersonListLayout.route
+        ) {
+            PersonListLayout(navController = navController)
+        }
+
+        composable(
+            route = Layouts.PersonLayout.route,
+            arguments = listOf(
+                navArgument(Layouts.Args.PERSON_ID) { type = NavType.LongType }
+            )
+        ) {
+            val personId = it.arguments?.getLong(Layouts.Args.PERSON_ID) ?: -1
+            PersonLayout(navController = navController, personId = personId)
+        }
+
     }
 }

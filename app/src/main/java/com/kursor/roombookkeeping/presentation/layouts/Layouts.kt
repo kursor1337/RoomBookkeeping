@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.presentation.layouts
 
+import com.kursor.roombookkeeping.presentation.layouts.Layouts.Args.PERSON_ID
 import com.kursor.roombookkeeping.presentation.layouts.Layouts.Args.PRICE_INDEX
 import com.kursor.roombookkeeping.presentation.layouts.Layouts.Args.RECEIPT_ID
 
@@ -25,9 +26,19 @@ sealed class Layouts(val start: String, vararg args: String) {
         RECEIPT_ID, PRICE_INDEX
     )
 
+    object PersonListLayout : Layouts(
+        start = "PersonListLayout"
+    )
+
+    object PersonLayout : Layouts(
+        start = "PersonLayout",
+        PERSON_ID
+    )
+
 
     object Args {
         const val RECEIPT_ID = "receiptId"
         const val PRICE_INDEX = "priceIndex"
+        const val PERSON_ID = "personId"
     }
 }
