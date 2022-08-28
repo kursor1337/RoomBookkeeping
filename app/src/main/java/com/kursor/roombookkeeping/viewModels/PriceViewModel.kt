@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kursor.roombookkeeping.domain.usecases.person.GetPersonListUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
@@ -19,7 +20,8 @@ class PriceViewModel(
     val editPriceUseCase: EditPriceUseCase,
     val addPersonToPriceUseCase: AddPersonToPriceUseCase,
     val deletePersonFromPriceUseCase: DeletePersonFromPriceUseCase,
-    val getReceiptUseCase: GetReceiptUseCase
+    val getReceiptUseCase: GetReceiptUseCase,
+    val getPersonListUseCase: GetPersonListUseCase
 ) : ViewModel() {
 
     private val _nameLiveData = MutableLiveData<String>()
@@ -30,6 +32,8 @@ class PriceViewModel(
 
     private val _personsLiveData = MutableLiveData<List<Person>>()
     val personsLiveData: LiveData<List<Person>> get() = _personsLiveData
+
+    lateinit var wholePersonList: List<Person>
 
     var receiptId: Long? = null
         set(value) {

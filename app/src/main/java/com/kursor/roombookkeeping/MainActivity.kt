@@ -18,7 +18,7 @@ import org.koin.android.ext.android.inject
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (application as App).loaded.join()
+        (application as App).loaded
         setContent {
             RoomBookkeepingTheme {
                 // A surface container using the 'background' color from the theme
