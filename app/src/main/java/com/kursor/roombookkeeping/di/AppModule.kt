@@ -1,11 +1,8 @@
 package com.kursor.roombookkeeping.di
 
-import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.DeletePriceFromReceiptUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
-import com.kursor.roombookkeeping.viewModels.PriceViewModel
-import com.kursor.roombookkeeping.viewModels.ReceiptListViewModel
-import com.kursor.roombookkeeping.viewModels.ReceiptViewModel
+import com.kursor.roombookkeeping.viewModels.price.PriceViewModel
+import com.kursor.roombookkeeping.viewModels.receipt.ReceiptListViewModel
+import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

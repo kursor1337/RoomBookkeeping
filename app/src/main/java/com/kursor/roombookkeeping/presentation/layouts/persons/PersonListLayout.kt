@@ -1,11 +1,13 @@
 package com.kursor.roombookkeeping.presentation.layouts.receipts
 
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SplashScreenLayout() {
+fun PersonListLayout() {
 
-    Text(text = "loading")
+    LazyColumn {
+        items
+    }
 
 }

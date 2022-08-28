@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.viewModels
+package com.kursor.roombookkeeping.viewModels.receipt
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +10,7 @@ import com.kursor.roombookkeeping.domain.usecases.receipt.crud.EditReceiptUseCas
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ReceiptViewModel(
     val createReceiptUseCase: CreateReceiptUseCase,
@@ -32,7 +33,7 @@ class ReceiptViewModel(
             }
         }
 
-    var receipt: Receipt? = null
+    private var receipt: Receipt? = null
 
     private fun getReceiptData() {
         viewModelScope.launch {
@@ -55,7 +56,24 @@ class ReceiptViewModel(
         if (receiptId == null) return
         viewModelScope.launch {
             if (receipt == null) {
-                createReceiptUseCase(receipt!!)
+                val current = System.currentTimeMillis()
+                createReceiptUseCase(
+                    Receipt(
+                        id = current,
+                        name = nameLiveData.value!!,
+                        dateTime = Date(current),
+                        priceList = priceListLiveData.value!!
+                    )
+                )
+            } else {
+                updateReceiptUseCase(
+                    Receipt(
+                        id = receipt!!.id,
+                        name = nameLiveData.value!!,
+                        dateTime = receipt!!.dateTime,
+                        priceList = priceListLiveData.value!!
+                    )
+                )
             }
         }
     }

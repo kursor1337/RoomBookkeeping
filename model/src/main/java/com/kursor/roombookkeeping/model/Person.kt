@@ -1,6 +1,6 @@
 package com.kursor.roombookkeeping.model
 
-class Person(
+data class Person(
     val id: Long,
     val name: String
 ) {

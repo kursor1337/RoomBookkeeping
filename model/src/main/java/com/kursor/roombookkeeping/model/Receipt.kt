@@ -2,7 +2,7 @@ package com.kursor.roombookkeeping.model
 
 import java.util.*
 
-class Receipt(
+data class Receipt(
     val id: Long,
     val name: String,
     val dateTime: Date,

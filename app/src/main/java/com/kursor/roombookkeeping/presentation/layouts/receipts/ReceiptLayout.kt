@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import com.kursor.roombookkeeping.calculateCommonPersons
-import com.kursor.roombookkeeping.viewModels.ReceiptViewModel
+import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable

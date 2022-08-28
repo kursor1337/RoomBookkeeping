@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.viewModels
+package com.kursor.roombookkeeping.viewModels.price
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,47 +24,36 @@ class PriceViewModel(
     val getPersonListUseCase: GetPersonListUseCase
 ) : ViewModel() {
 
-    private val _nameLiveData = MutableLiveData<String>()
+    private val _nameLiveData = MutableLiveData("")
     val nameLiveData: LiveData<String> get() = _nameLiveData
 
-    private val _valueLiveData = MutableLiveData<Int>()
+    private val _valueLiveData = MutableLiveData(0)
     val valueLiveData: LiveData<Int> get() = _valueLiveData
 
-    private val _personsLiveData = MutableLiveData<List<Person>>()
-    val personsLiveData: LiveData<List<Person>> get() = _personsLiveData
+    private val _selectedPersonIndexesLiveData = MutableLiveData<List<Int>>(emptyList())
+    val selectedPersonIndexesLiveData: LiveData<List<Int>> get() = _selectedPersonIndexesLiveData
 
-    lateinit var wholePersonList: List<Person>
-
-    var receiptId: Long? = null
-        set(value) {
-            if (field != null) return
-            field = value
-            if (value != null) {
-                loadReceiptData()
-            }
-        }
+    private val _wholePersonListLiveData = MutableLiveData<List<Person>>(emptyList())
+    val wholePersonListLiveData: LiveData<List<Person>> get() = _wholePersonListLiveData
 
     lateinit var receipt: Receipt
-
-    var priceIndex: Int? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                price = receipt.priceList[value]
-            }
-        }
-
     var price: Price? = null
 
-    init {
-        _nameLiveData.value = price?.name ?: ""
-        _valueLiveData.value = price?.value ?: 0
-        _personsLiveData.value = price?.persons ?: mutableListOf()
-    }
-
-    fun loadReceiptData() {
+    fun loadData(receiptId: Long, priceIndex: Int) {
+        if (::receipt.isInitialized) return
         viewModelScope.launch {
+            _wholePersonListLiveData.value = getPersonListUseCase()
+
             receipt = getReceiptUseCase(receiptId!!)!!
+            if (priceIndex == -1) return@launch
+            price = receipt.priceList[priceIndex].also { price ->
+                _valueLiveData.value = price.value
+                _nameLiveData.value = price.name
+                _selectedPersonIndexesLiveData.value =
+                    wholePersonListLiveData.value!!.filter { person ->
+                        person in price.persons
+                    }.mapIndexed { index, person -> index }
+            }
         }
     }
 
@@ -76,12 +65,18 @@ class PriceViewModel(
         _valueLiveData.value = newValue.toInt()
     }
 
-    fun addPerson(person: Person) {
-        _personsLiveData.value = _personsLiveData.value!!.plus(person)
+    fun changeSelectionForPerson(index: Int, checked: Boolean) {
+        if (checked) {
+            addPerson(index)
+        } else deletePerson(index)
     }
 
-    fun deletePerson(person: Person) {
-        _personsLiveData.value = _personsLiveData.value!!.minus(person)
+    fun addPerson(index: Int) {
+        _selectedPersonIndexesLiveData.value = _selectedPersonIndexesLiveData.value!!.plus(index)
+    }
+
+    fun deletePerson(index: Int) {
+        _selectedPersonIndexesLiveData.value = _selectedPersonIndexesLiveData.value!!.minus(index)
     }
 
     fun submit() {
@@ -92,7 +87,9 @@ class PriceViewModel(
                     Price(
                         name = nameLiveData.value!!,
                         value = valueLiveData.value!!,
-                        persons = personsLiveData.value!!
+                        persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->
+                            wholePersonListLiveData.value!![personIndex]
+                        }
                     )
                 )
             } else {
@@ -102,7 +99,9 @@ class PriceViewModel(
                     index, Price(
                         name = nameLiveData.value!!,
                         value = valueLiveData.value!!,
-                        persons = personsLiveData.value!!
+                        persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->
+                            wholePersonListLiveData.value!![personIndex]
+                        }
                     )
                 )
             }
