@@ -74,6 +74,9 @@ dependencies {
     // Jetpack Compose
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
 
+    val nav_version = "2.5.1"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
 
 

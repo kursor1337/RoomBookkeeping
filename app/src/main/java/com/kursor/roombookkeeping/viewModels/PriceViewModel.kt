@@ -33,6 +33,7 @@ class PriceViewModel(
 
     var receiptId: Long? = null
         set(value) {
+            if (field != null) return
             field = value
             if (value != null) {
                 loadReceiptData()

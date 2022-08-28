@@ -15,7 +15,7 @@ val appModule = module {
         ReceiptListViewModel(getReceiptListUseCase = get())
     }
 
-    viewModel { parameters ->
+    viewModel {
         ReceiptViewModel(
             createReceiptUseCase = get(),
             updateReceiptUseCase = get(),
@@ -23,14 +23,13 @@ val appModule = module {
         )
     }
 
-    viewModel { parameters ->
+    viewModel {
         PriceViewModel(
             addPriceToReceiptUseCase = get(),
             editPriceUseCase = get(),
             addPersonToPriceUseCase = get(),
             deletePersonFromPriceUseCase = get(),
-            receipt = parameters.get(),
-            price = parameters.get()
+            getReceiptUseCase = get()
         )
     }
 

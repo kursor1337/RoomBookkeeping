@@ -23,8 +23,9 @@ class ReceiptViewModel(
     private val _nameLiveData = MutableLiveData<String>()
     val nameLiveData: LiveData<String> get() = _nameLiveData
 
-    var receiptId: Int? = null
+    var receiptId: Long? = null
         set(value) {
+            if (field != null) return
             field = value
             if (value != null) {
                 getReceiptData()
