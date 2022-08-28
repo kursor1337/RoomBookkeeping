@@ -17,11 +17,7 @@ class ReceiptListViewModel(
     private val _receiptListLiveData = MutableLiveData<List<Receipt>>()
     val receiptListLiveData: LiveData<List<Receipt>> get() = _receiptListLiveData
 
-    init {
-        updateList()
-    }
-
-    fun updateList() {
+    fun loadData() {
         viewModelScope.launch {
             _receiptListLiveData.value = getReceiptListUseCase()!!
         }

@@ -24,21 +24,11 @@ class ReceiptViewModel(
     private val _nameLiveData = MutableLiveData<String>()
     val nameLiveData: LiveData<String> get() = _nameLiveData
 
-    var receiptId: Long? = null
-        set(value) {
-            if (field != null) return
-            field = value
-            if (value != null) {
-                getReceiptData()
-            }
-        }
-
     private var receipt: Receipt? = null
 
-    private fun getReceiptData() {
+    fun loadData(receiptId: Long) {
         viewModelScope.launch {
-            val id = receipt?.id ?: return@launch
-            receipt = getReceiptUseCase(id)!!
+            receipt = getReceiptUseCase(receiptId)!!
             _nameLiveData.value = receipt!!.name
             _priceListLiveData.value = receipt!!.priceList
         }
@@ -53,7 +43,6 @@ class ReceiptViewModel(
     }
 
     fun submit() {
-        if (receiptId == null) return
         viewModelScope.launch {
             if (receipt == null) {
                 val current = System.currentTimeMillis()

@@ -3,9 +3,12 @@ package com.kursor.roombookkeeping.presentation.layouts.receipts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.res.stringResource
+import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.calculateCommonPersons
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.compose.getViewModel
@@ -19,7 +22,7 @@ fun ReceiptLayout(
     val name = receiptViewModel.nameLiveData.observeAsState(initial = "")
     val priceList = receiptViewModel.priceListLiveData.observeAsState(initial = emptyList())
 
-    if (receiptId != -1L) receiptViewModel.receiptId = receiptId
+    receiptViewModel.loadData(receiptId)
 
     Column {
         Text(text = name.value)
@@ -33,6 +36,10 @@ fun ReceiptLayout(
                 }
             }
         }
+    }
+
+    Button(onClick = { receiptViewModel.submit() }) {
+        Text(text = stringResource(id = R.string.submit))
     }
 
 

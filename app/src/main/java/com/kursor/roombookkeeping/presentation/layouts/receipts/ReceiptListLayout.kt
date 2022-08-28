@@ -12,6 +12,8 @@ fun ReceiptListLayout(receiptListViewModel: ReceiptListViewModel = getViewModel(
 
     val receiptList = receiptListViewModel.receiptListLiveData.observeAsState(initial = emptyList())
 
+    receiptListViewModel.loadData()
+
     LazyColumn {
         items(receiptList.value) { receipt ->
             ReceiptListItemLayout(receipt = receipt)

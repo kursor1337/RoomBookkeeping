@@ -22,13 +22,13 @@ fun PriceLayout(
     priceViewModel: PriceViewModel = getViewModel()
 ) {
 
-    priceViewModel.loadData(receiptId, priceIndex)
-
     val name = priceViewModel.nameLiveData.observeAsState(initial = "")
     val value = priceViewModel.valueLiveData.observeAsState(initial = 0)
     val persons = priceViewModel.selectedPersonIndexesLiveData.observeAsState(initial = emptyList())
     val wholePersonList =
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
+
+    priceViewModel.loadData(receiptId, priceIndex)
 
     Row {
         Column {
