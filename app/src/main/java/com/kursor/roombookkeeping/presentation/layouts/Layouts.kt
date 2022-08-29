@@ -6,11 +6,7 @@ import com.kursor.roombookkeeping.presentation.layouts.Layouts.Args.RECEIPT_ID
 
 sealed class Layouts(val start: String, vararg args: String) {
 
-    val route = start + args.joinToString(
-        separator = "}/{",
-        prefix = "/{",
-        postfix = "}"
-    )
+    val route = start + args.map { "/{$it}" }.joinToString("")
 
     object SplashLayout : Layouts(start = "SplashLayout")
 
@@ -19,12 +15,17 @@ sealed class Layouts(val start: String, vararg args: String) {
     object ReceiptLayout : Layouts(
         start = "ReceiptLayout",
         RECEIPT_ID
-    )
+    ) {
+        fun withArgs(receiptId: Long) = buildPath(receiptId.toString())
+    }
 
     object PriceLayout : Layouts(
         start = "PriceLayout",
         RECEIPT_ID, PRICE_INDEX
-    )
+    ) {
+        fun withArgs(receiptId: Long, priceIndex: Int) =
+            buildPath(receiptId.toString(), priceIndex.toString())
+    }
 
     object PersonListLayout : Layouts(
         start = "PersonListLayout"
@@ -33,12 +34,21 @@ sealed class Layouts(val start: String, vararg args: String) {
     object PersonLayout : Layouts(
         start = "PersonLayout",
         PERSON_ID
-    )
+    ) {
+        fun withArgs(personId: Long) = buildPath(personId.toString())
+    }
 
 
     object Args {
         const val RECEIPT_ID = "receiptId"
         const val PRICE_INDEX = "priceIndex"
         const val PERSON_ID = "personId"
+    }
+
+    protected fun buildPath(vararg args: String) = buildString {
+        append(start)
+        args.forEach {
+            append("/$it")
+        }
     }
 }

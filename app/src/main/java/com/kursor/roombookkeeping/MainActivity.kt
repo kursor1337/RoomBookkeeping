@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
+import com.kursor.roombookkeeping.presentation.layouts.MainLayout
 import com.kursor.roombookkeeping.ui.theme.RoomBookkeepingTheme
 import org.koin.android.ext.android.inject
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    MainLayout()
                 }
             }
         }

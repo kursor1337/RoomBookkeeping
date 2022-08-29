@@ -1,6 +1,9 @@
 package com.kursor.roombookkeeping
 
 import android.app.Application
+import com.kursor.roombookkeeping.di.appModule
+import com.kursor.roombookkeeping.di.dataModule
+import com.kursor.roombookkeeping.di.domainModule
 import com.kursor.roombookkeeping.domain.repositories.ReceiptRepository
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
@@ -27,7 +30,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-
+            modules(appModule, dataModule, domainModule)
         }
 
     }

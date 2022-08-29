@@ -18,10 +18,10 @@ class ReceiptViewModel(
     val getReceiptUseCase: GetReceiptUseCase
 ) : ViewModel() {
 
-    private val _priceListLiveData = MutableLiveData<List<Price>>()
+    private val _priceListLiveData = MutableLiveData<List<Price>>(emptyList())
     val priceListLiveData: LiveData<List<Price>> get() = _priceListLiveData
 
-    private val _nameLiveData = MutableLiveData<String>()
+    private val _nameLiveData = MutableLiveData("")
     val nameLiveData: LiveData<String> get() = _nameLiveData
 
     private var receipt: Receipt? = null
@@ -35,6 +35,9 @@ class ReceiptViewModel(
         }
     }
 
+    fun changeName(name: String) {
+        _nameLiveData.value = name
+    }
 
     fun deletePrice(price: Price) {
         viewModelScope.launch {

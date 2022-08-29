@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.presentation.layouts
 
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptListLayou
 fun MainLayout() {
 
     val navController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
 
     NavHost(navController = navController, startDestination = Layouts.ReceiptListLayout.route) {
 
@@ -24,13 +26,16 @@ fun MainLayout() {
         }
 
         composable(
-            route = Layouts.ReceiptListLayout.start
+            route = Layouts.ReceiptListLayout.route
         ) {
-            ReceiptListLayout(navController = navController)
+            ReceiptListLayout(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(
-            route = Layouts.ReceiptLayout.start,
+            route = Layouts.ReceiptLayout.route,
             arguments = listOf(
                 navArgument(Layouts.Args.RECEIPT_ID) { type = NavType.LongType }
             )
@@ -38,6 +43,7 @@ fun MainLayout() {
             val receiptId = it.arguments?.getLong(Layouts.Args.RECEIPT_ID) ?: -1
             ReceiptLayout(
                 navController = navController,
+                scaffoldState = scaffoldState,
                 receiptId = receiptId
             )
         }
@@ -53,6 +59,7 @@ fun MainLayout() {
             val priceIndex = it.arguments?.getInt(Layouts.Args.PRICE_INDEX) ?: -1
             PriceLayout(
                 navController = navController,
+                scaffoldState = scaffoldState,
                 receiptId = receiptId,
                 priceIndex = priceIndex
             )
@@ -61,7 +68,10 @@ fun MainLayout() {
         composable(
             route = Layouts.PersonListLayout.route
         ) {
-            PersonListLayout(navController = navController)
+            PersonListLayout(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(
@@ -71,7 +81,11 @@ fun MainLayout() {
             )
         ) {
             val personId = it.arguments?.getLong(Layouts.Args.PERSON_ID) ?: -1
-            PersonLayout(navController = navController, personId = personId)
+            PersonLayout(
+                navController = navController,
+                scaffoldState = scaffoldState,
+                personId = personId
+            )
         }
 
     }
