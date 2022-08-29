@@ -7,11 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class EditPriceUseCase(
-    val receiptRepository: ReceiptRepository,
-    val receipt: Receipt
+    val receiptRepository: ReceiptRepository
 ) {
 
-    suspend operator fun invoke(index: Int, price: Price) {
+    suspend operator fun invoke(receipt: Receipt, index: Int, price: Price) {
         withContext(Dispatchers.IO) {
             receiptRepository.edit(
                 Receipt(

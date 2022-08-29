@@ -31,39 +31,41 @@ fun PriceLayout(
     val wholePersonList =
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
 
-    Row {
-        Column {
-            TextField(
-                value = name.value,
-                onValueChange = priceViewModel::changeName,
-                placeholder = { Text(text = stringResource(id = R.string.name_inanimate)) }
-            )
 
-            TextField(
-                value = value.value.toString(),
-                onValueChange = priceViewModel::changeValue,
-                placeholder = { Text(text = stringResource(id = R.string.price_value)) }
-            )
-        }
+    Column {
+        Row {
+            Column {
+                TextField(
+                    value = name.value,
+                    onValueChange = priceViewModel::changeName,
+                    placeholder = { Text(text = stringResource(id = R.string.name_inanimate)) }
+                )
 
-        LazyColumn {
-            itemsIndexed(wholePersonList.value) { index, person ->
-                if (index != wholePersonList.value.lastIndex) {
-                    Button(onClick = {
-                        navController.navigate(Layouts.PersonLayout.withArgs(-1))
-                    }) {
-                        Text(text = stringResource(id = R.string.create_new_person))
-                    }
-                } else
-                    CheckboxRow(
-                        text = person.name,
-                        onCheckedChange = {
-                            priceViewModel.changeSelectionForPerson(
-                                index = index,
-                                checked = it
-                            )
+                TextField(
+                    value = value.value.toString(),
+                    onValueChange = priceViewModel::changeValue,
+                    placeholder = { Text(text = stringResource(id = R.string.price_value)) }
+                )
+            }
+            LazyColumn {
+                itemsIndexed(wholePersonList.value) { index, person ->
+                    if (index != wholePersonList.value.lastIndex) {
+                        Button(onClick = {
+                            navController.navigate(Layouts.PersonLayout.withArgs(-1))
+                        }) {
+                            Text(text = stringResource(id = R.string.create_new_person))
                         }
-                    )
+                    } else
+                        CheckboxRow(
+                            text = person.name,
+                            onCheckedChange = {
+                                priceViewModel.changeSelectionForPerson(
+                                    index = index,
+                                    checked = it
+                                )
+                            }
+                        )
+                }
             }
         }
 
@@ -71,11 +73,12 @@ fun PriceLayout(
             Text(text = stringResource(id = R.string.submit))
             navController.popBackStack()
         }
-        
-        DisposableEffect(key1 = true) {
-            onDispose {
-                priceViewModel.submit()
-            }
+    }
+
+
+    DisposableEffect(key1 = true) {
+        onDispose {
+            priceViewModel.submit()
         }
     }
 }

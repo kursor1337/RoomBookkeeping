@@ -18,8 +18,6 @@ import kotlinx.coroutines.launch
 class PriceViewModel(
     val addPriceToReceiptUseCase: AddPriceToReceiptUseCase,
     val editPriceUseCase: EditPriceUseCase,
-    val addPersonToPriceUseCase: AddPersonToPriceUseCase,
-    val deletePersonFromPriceUseCase: DeletePersonFromPriceUseCase,
     val getReceiptUseCase: GetReceiptUseCase,
     val getPersonListUseCase: GetPersonListUseCase
 ) : ViewModel() {
@@ -40,9 +38,10 @@ class PriceViewModel(
     var price: Price? = null
 
     fun loadData(receiptId: Long, priceIndex: Int) {
-        if (priceIndex == -1) return
+
         viewModelScope.launch {
             _wholePersonListLiveData.value = getPersonListUseCase()
+            if (priceIndex == -1) return@launch
 
             receipt = getReceiptUseCase(receiptId!!)!!
             if (priceIndex == -1) return@launch
@@ -80,11 +79,12 @@ class PriceViewModel(
     }
 
     fun submit() {
+        if (!::receipt.isInitialized) return
         viewModelScope.launch {
             if (price == null) {
                 addPriceToReceiptUseCase(
-                    receipt,
-                    Price(
+                    receipt = receipt,
+                    price = Price(
                         name = nameLiveData.value!!,
                         value = valueLiveData.value!!,
                         persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->
@@ -96,7 +96,9 @@ class PriceViewModel(
                 val index = receipt.priceList.indexOf(price)
                 if (index == -1) return@launch
                 editPriceUseCase(
-                    index, Price(
+                    receipt = receipt,
+                    index = index,
+                    price = Price(
                         name = nameLiveData.value!!,
                         value = valueLiveData.value!!,
                         persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->

@@ -8,11 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DeletePersonFromPriceUseCase(
-    val receiptRepository: ReceiptRepository,
-    val receipt: Receipt
+    val receiptRepository: ReceiptRepository
 ) {
 
-    suspend operator fun invoke(price: Price, person: Person) {
+    suspend operator fun invoke(receipt: Receipt, price: Price, person: Person) {
         withContext(Dispatchers.IO) {
             receiptRepository.edit(
                 Receipt(

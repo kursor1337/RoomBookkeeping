@@ -39,24 +39,21 @@ val domainModule = module {
         DeletePriceFromReceiptUseCase(receiptRepository = get())
     }
 
-    factory { parameters ->
+    factory {
         AddPersonToPriceUseCase(
-            receiptRepository = get(),
-            receipt = parameters.get()
+            receiptRepository = get()
         )
     }
 
-    factory { parameters ->
+    factory {
         DeletePersonFromPriceUseCase(
-            receiptRepository = get(),
-            receipt = parameters.get()
+            receiptRepository = get()
         )
     }
 
-    factory { parameters ->
+    factory {
         EditPriceUseCase(
-            receiptRepository = get(),
-            receipt = parameters.get()
+            receiptRepository = get()
         )
     }
 

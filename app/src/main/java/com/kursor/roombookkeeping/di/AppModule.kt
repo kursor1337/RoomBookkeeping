@@ -29,8 +29,6 @@ val appModule = module {
         PriceViewModel(
             addPriceToReceiptUseCase = get(),
             editPriceUseCase = get(),
-            addPersonToPriceUseCase = get(),
-            deletePersonFromPriceUseCase = get(),
             getReceiptUseCase = get(),
             getPersonListUseCase = get()
         )
