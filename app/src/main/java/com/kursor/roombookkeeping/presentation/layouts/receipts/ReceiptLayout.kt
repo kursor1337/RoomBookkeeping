@@ -56,24 +56,28 @@ fun ReceiptLayout(
                 placeholderText = stringResource(id = R.string.name_inanimate)
             )
             Text(text = priceList.value.calculateCommonPersons().joinToString())
-            LazyColumn {
-                itemsIndexed(priceList.value) { index, price ->
-                    PriceListItemLayout(
-                        price = price,
-                        modifier = Modifier.clickable {
-                            navController.navigate(
-                                Layouts.PriceLayout.withArgs(
-                                    receiptId = receiptId,
-                                    priceIndex = index
+
+            if (priceList.value.isEmpty()) {
+                Text(text = "No prices?")
+            } else
+                LazyColumn {
+                    itemsIndexed(priceList.value) { index, price ->
+                        PriceListItemLayout(
+                            price = price,
+                            modifier = Modifier.clickable {
+                                navController.navigate(
+                                    Layouts.PriceLayout.withArgs(
+                                        receiptId = receiptId,
+                                        priceIndex = index
+                                    )
                                 )
-                            )
-                        },
-                        onDeletePriceButtonClick = {
-                            receiptViewModel.deletePrice(price)
-                        }
-                    )
+                            },
+                            onDeletePriceButtonClick = {
+                                receiptViewModel.deletePrice(price)
+                            }
+                        )
+                    }
                 }
-            }
             Button(onClick = {
                 receiptViewModel.submit()
                 navController.popBackStack()

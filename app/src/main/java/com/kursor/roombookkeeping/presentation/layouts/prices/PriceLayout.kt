@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +34,8 @@ fun PriceLayout(
     val value = priceViewModel.valueLiveData.observeAsState(initial = 0)
     val wholePersonList =
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
+    val selectedPersons =
+        priceViewModel.selectedPersonIndexesLiveData.observeAsState(initial = emptyList())
 
     Log.i("PriceLayout", "start")
 
@@ -57,7 +60,7 @@ fun PriceLayout(
             itemsIndexed(wholePersonList.value) { index, person ->
                 CheckboxRow(
                     text = person.name,
-                    modifier = Modifier.fillMaxWidth(),
+                    checked = index in selectedPersons.value,
                     onCheckedChange = {
                         priceViewModel.changeSelectionForPerson(
                             index = index,
@@ -97,18 +100,17 @@ fun PriceLayout(
 @Composable
 fun CheckboxRow(
     text: String,
+    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
     ) {
-        Checkbox(checked = true, onCheckedChange = onCheckedChange)
+        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
         Text(
             text = text,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
 }

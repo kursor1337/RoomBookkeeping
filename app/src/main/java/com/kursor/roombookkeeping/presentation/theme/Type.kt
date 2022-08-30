@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.ui.theme
+package com.kursor.roombookkeeping.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

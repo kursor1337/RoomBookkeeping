@@ -71,7 +71,7 @@ fun ReceiptListLayout(
     ) {
         LazyColumn {
             items(receiptList.value) { receipt ->
-                UnselectedReceiptListItemLayout(
+                SelectableReceiptListItemLayout(
                     receipt = receipt,
                     modifier = Modifier
                         .pointerInput(Unit) {
@@ -80,10 +80,17 @@ fun ReceiptListLayout(
                                     receiptListViewModel.changeSelectionForReceipt(receipt)
                                 },
                                 onTap = {
-                                    navController.navigate(Layouts.ReceiptLayout.withArgs(receipt.id))
+                                    if (selectedReceipts.value.isEmpty())
+                                        navController.navigate(
+                                            Layouts.ReceiptLayout.withArgs(
+                                                receipt.id
+                                            )
+                                        )
+                                    else receiptListViewModel.changeSelectionForReceipt(receipt)
                                 }
                             )
-                        }
+                        },
+                    selectionCriteria = { receipt in selectedReceipts.value }
                 )
             }
         }
@@ -104,27 +111,34 @@ fun SelectableReceiptListItemLayout(
 @Composable
 fun UnselectedReceiptListItemLayout(
     receipt: Receipt,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.Unspecified
 ) {
     Row(modifier = modifier) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .width(150.dp)
+                .padding(horizontal = 12.dp)
         ) {
             Text(
                 text = receipt.name,
                 style = TextStyle(
                     fontSize = 22.sp
-                )
+                ),
+                color = textColor
             )
-            Text(text = receipt.priceList.sumOf { it.value }.toString())
+            Text(
+                text = receipt.priceList.sumOf { it.value }.toString(),
+                color = textColor
+            )
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+
         Column(
             modifier = Modifier
                 .width(IntrinsicSize.Max)
                 .padding(
-                    horizontal = 8.dp,
+                    horizontal = 12.dp,
                     vertical = 4.dp
                 )
         ) {
@@ -137,6 +151,7 @@ fun UnselectedReceiptListItemLayout(
                     fontSize = 16.sp
                 ),
                 textAlign = TextAlign.Center,
+                color = textColor,
                 modifier = Modifier.fillMaxSize()
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -149,6 +164,7 @@ fun UnselectedReceiptListItemLayout(
                     fontSize = 16.sp
                 ),
                 textAlign = TextAlign.Center,
+                color = textColor,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -160,7 +176,11 @@ fun SelectedReceiptListItemLayout(
     receipt: Receipt,
     modifier: Modifier = Modifier
 ) {
-    Surface(color = Color.Black) {
-        UnselectedReceiptListItemLayout(receipt = receipt, modifier = modifier)
+    Surface(color = MaterialTheme.colors.secondary) {
+        UnselectedReceiptListItemLayout(
+            receipt = receipt,
+            modifier = modifier,
+            textColor = MaterialTheme.colors.primary
+        )
     }
 }

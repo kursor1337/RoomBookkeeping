@@ -1,4 +1,4 @@
-package com.kursor.roombookkeeping.presentation.layouts
+package com.kursor.roombookkeeping.presentation.special
 
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.layouts.SplashScreenLayout
 import com.kursor.roombookkeeping.presentation.layouts.persons.PersonLayout
 import com.kursor.roombookkeeping.presentation.layouts.persons.PersonListLayout
 import com.kursor.roombookkeeping.presentation.layouts.prices.PriceLayout

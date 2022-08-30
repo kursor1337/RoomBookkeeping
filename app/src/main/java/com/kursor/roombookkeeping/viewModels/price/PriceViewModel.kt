@@ -42,6 +42,10 @@ class PriceViewModel(
 
         viewModelScope.launch {
             _wholePersonListLiveData.value = getPersonListUseCase()
+            _selectedPersonIndexesLiveData.value =
+                wholePersonListLiveData.value!!.mapIndexed { index, person ->
+                    index
+                }
             receipt = getReceiptUseCase(receiptId!!)!!
 
             if (receiptId == -1L) return@launch
