@@ -3,5 +3,6 @@
 
     <style name="Theme.RoomBookkeeping" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:windowBackground">@drawable/ic_splash_screen</item>
     </style>
 </resources>

@@ -63,11 +63,5 @@ fun ReceiptLayout(
                 Text(text = stringResource(id = R.string.submit))
             }
         }
-
-        DisposableEffect(key1 = true) {
-            onDispose {
-                receiptViewModel.submit()
-            }
-        }
     }
 }

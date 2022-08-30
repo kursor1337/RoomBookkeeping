@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.presentation.layouts.prices
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,10 @@ fun PriceLayout(
     val wholePersonList =
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
 
+    Log.i("PriceLayout", "start")
 
+
+    
     Column {
         Row {
             Column {
@@ -69,16 +73,11 @@ fun PriceLayout(
             }
         }
 
-        Button(onClick = { priceViewModel.submit() }) {
-            Text(text = stringResource(id = R.string.submit))
-            navController.popBackStack()
-        }
-    }
-
-
-    DisposableEffect(key1 = true) {
-        onDispose {
+        Button(onClick = {
             priceViewModel.submit()
+            navController.popBackStack()
+        }) {
+            Text(text = stringResource(id = R.string.submit))
         }
     }
 }
