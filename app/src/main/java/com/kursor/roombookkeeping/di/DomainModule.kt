@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.di
 
+import com.kursor.roombookkeeping.domain.usecases.CalculateOutcomesUseCase
 import com.kursor.roombookkeeping.domain.usecases.person.*
 import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
@@ -75,6 +76,10 @@ val domainModule = module {
 
     factory {
         GetPersonUseCase(personRepository = get())
+    }
+
+    factory {
+        CalculateOutcomesUseCase()
     }
 
 }

@@ -4,4 +4,5 @@
     <string name="price_value">Value</string>
     <string name="submit">Submit</string>
     <string name="create_new_person">Create new person</string>
+    <string name="add_price">Add price</string>
 </resources>

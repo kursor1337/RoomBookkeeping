@@ -21,7 +21,8 @@ val appModule = module {
         ReceiptViewModel(
             createReceiptUseCase = get(),
             updateReceiptUseCase = get(),
-            getReceiptUseCase = get()
+            getReceiptUseCase = get(),
+            calculateOutcomesUseCase = get()
         )
     }
 

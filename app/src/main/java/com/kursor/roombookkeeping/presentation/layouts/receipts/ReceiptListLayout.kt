@@ -7,8 +7,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +41,17 @@ fun ReceiptListLayout(
                 navController.navigate(Layouts.ReceiptLayout.withArgs(-1))
             }) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "AddReceipt")
+            }
+        },
+        topBar = {
+            TopAppBar {
+                Spacer(modifier = Modifier.weight(1f, fill = true))
+                IconButton(
+                    onClick = {
+                        navController.navigate(Layouts.PersonListLayout.route)
+                    }) {
+                    Icon(imageVector = Icons.Filled.Person, contentDescription = "PersonList")
+                }
             }
         }
     ) {

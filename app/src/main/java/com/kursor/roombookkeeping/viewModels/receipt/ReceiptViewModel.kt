@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kursor.roombookkeeping.domain.usecases.CalculateOutcomesUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.CreateReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.EditReceiptUseCase
+import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import java.util.*
 class ReceiptViewModel(
     val createReceiptUseCase: CreateReceiptUseCase,
     val updateReceiptUseCase: EditReceiptUseCase,
-    val getReceiptUseCase: GetReceiptUseCase
+    val getReceiptUseCase: GetReceiptUseCase,
+    val calculateOutcomesUseCase: CalculateOutcomesUseCase
 ) : ViewModel() {
 
     private val _priceListLiveData = MutableLiveData<List<Price>>(emptyList())
@@ -23,6 +26,9 @@ class ReceiptViewModel(
 
     private val _nameLiveData = MutableLiveData("")
     val nameLiveData: LiveData<String> get() = _nameLiveData
+
+    private val _outcomesLiveData = MutableLiveData<Map<Person, Double>>()
+    val outcomesLiveData: LiveData<Map<Person, Double>> get() = _outcomesLiveData
 
     private var receipt: Receipt? = null
 
@@ -32,6 +38,9 @@ class ReceiptViewModel(
             receipt = getReceiptUseCase(receiptId)!!
             _nameLiveData.value = receipt!!.name
             _priceListLiveData.value = receipt!!.priceList
+            _outcomesLiveData.value =
+                if (receipt != null) calculateOutcomesUseCase(receipt!!)
+                else emptyMap()
         }
     }
 
@@ -70,5 +79,6 @@ class ReceiptViewModel(
             }
         }
     }
+
 
 }

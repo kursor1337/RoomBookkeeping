@@ -3,12 +3,14 @@ package com.kursor.roombookkeeping.presentation.layouts.prices
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
@@ -35,7 +37,7 @@ fun PriceLayout(
     Log.i("PriceLayout", "start")
 
 
-    
+
     Column {
         Row {
             Column {
@@ -51,17 +53,12 @@ fun PriceLayout(
                     placeholder = { Text(text = stringResource(id = R.string.price_value)) }
                 )
             }
-            LazyColumn {
-                itemsIndexed(wholePersonList.value) { index, person ->
-                    if (index != wholePersonList.value.lastIndex) {
-                        Button(onClick = {
-                            navController.navigate(Layouts.PersonLayout.withArgs(-1))
-                        }) {
-                            Text(text = stringResource(id = R.string.create_new_person))
-                        }
-                    } else
+            Column {
+                LazyColumn {
+                    itemsIndexed(wholePersonList.value) { index, person ->
                         CheckboxRow(
                             text = person.name,
+                            modifier = Modifier.fillMaxWidth(),
                             onCheckedChange = {
                                 priceViewModel.changeSelectionForPerson(
                                     index = index,
@@ -69,8 +66,17 @@ fun PriceLayout(
                                 )
                             }
                         )
+                    }
+                }
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        navController.navigate(Layouts.PersonLayout.withArgs(-1))
+                    }) {
+                    Text(text = stringResource(id = R.string.create_new_person))
                 }
             }
+
         }
 
         Button(onClick = {
@@ -86,8 +92,11 @@ fun PriceLayout(
 fun CheckboxRow(
     text: String,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Row {
+    Row(
+        modifier = modifier
+    ) {
         Checkbox(checked = true, onCheckedChange = onCheckedChange)
         Text(text = text)
     }

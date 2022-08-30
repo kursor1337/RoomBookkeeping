@@ -1,11 +1,11 @@
 package com.kursor.roombookkeeping.presentation.layouts.receipts
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.calculateCommonPersons
+import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
@@ -38,7 +39,7 @@ fun ReceiptLayout(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            Button(onClick = {
                 navController.navigate(
                     Layouts.PriceLayout.withArgs(
                         receiptId = receiptId,
@@ -46,7 +47,7 @@ fun ReceiptLayout(
                     )
                 )
             }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "AddPrice")
+                Text(text = stringResource(id = R.string.add_price))
             }
         }
     ) {
@@ -54,8 +55,18 @@ fun ReceiptLayout(
             TextField(value = name.value, onValueChange = receiptViewModel::changeName)
             Text(text = priceList.value.calculateCommonPersons().joinToString())
             LazyColumn {
-                items(priceList.value) { price ->
-                    PriceListItemLayout(price = price)
+                itemsIndexed(priceList.value) { index, price ->
+                    PriceListItemLayout(
+                        price = price,
+                        modifier = Modifier.clickable {
+                            navController.navigate(
+                                Layouts.PriceLayout.withArgs(
+                                    receiptId = receiptId,
+                                    priceIndex = index
+                                )
+                            )
+                        }
+                    )
                 }
             }
             Button(onClick = {
@@ -64,19 +75,41 @@ fun ReceiptLayout(
             }) {
                 Text(text = stringResource(id = R.string.submit))
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+
         }
     }
 }
 
 @Composable
-fun PriceListItemLayout(price: Price) {
+fun PriceListItemLayout(
+    price: Price,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier.padding(8.dp)
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth()
     ) {
         Text(text = price.name)
         Spacer(modifier = Modifier.height(4.dp))
         Text(text = price.value.toString())
         Spacer(modifier = Modifier.height(4.dp))
         Text(text = price.persons.joinToString())
+    }
+}
+
+@Composable
+fun PersonOutcomesLayout(personOutcomesMap: Map<Person, Double>) {
+    LazyColumn {
+        items(personOutcomesMap.toList()) { (person, outcome) ->
+            Row {
+                Text(text = person.name)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = String.format("%.2f", outcome))
+            }
+        }
     }
 }

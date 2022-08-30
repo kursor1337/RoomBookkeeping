@@ -29,17 +29,11 @@ fun PersonLayout(
     Column {
         TextField(value = name.value, onValueChange = personViewModel::changeName)
 
-        Button(onClick = { personViewModel.submit() }) {
-            Text(text = stringResource(id = R.string.submit))
-            navController.popBackStack()
-        }
-    }
-
-
-
-    DisposableEffect(key1 = true) {
-        onDispose {
+        Button(onClick = {
             personViewModel.submit()
+            navController.popBackStack()
+        }) {
+            Text(text = stringResource(id = R.string.submit))
         }
     }
 }
