@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.presentation.layouts.persons
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -25,12 +26,16 @@ fun PersonLayout(
 
     val name = personViewModel.nameLiveData.observeAsState(initial = "")
 
-    TextField(value = name.value, onValueChange = personViewModel::changeName)
+    Column {
+        TextField(value = name.value, onValueChange = personViewModel::changeName)
 
-    Button(onClick = { personViewModel.submit() }) {
-        Text(text = stringResource(id = R.string.submit))
-        navController.popBackStack()
+        Button(onClick = { personViewModel.submit() }) {
+            Text(text = stringResource(id = R.string.submit))
+            navController.popBackStack()
+        }
     }
+
+
 
     DisposableEffect(key1 = true) {
         onDispose {

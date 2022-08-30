@@ -25,8 +25,8 @@ class PriceViewModel(
     private val _nameLiveData = MutableLiveData("")
     val nameLiveData: LiveData<String> get() = _nameLiveData
 
-    private val _valueLiveData = MutableLiveData(0)
-    val valueLiveData: LiveData<Int> get() = _valueLiveData
+    private val _valueLiveData = MutableLiveData("")
+    val valueLiveData: LiveData<String> get() = _valueLiveData
 
     private val _selectedPersonIndexesLiveData = MutableLiveData<List<Int>>(emptyList())
     val selectedPersonIndexesLiveData: LiveData<List<Int>> get() = _selectedPersonIndexesLiveData
@@ -41,12 +41,11 @@ class PriceViewModel(
 
         viewModelScope.launch {
             _wholePersonListLiveData.value = getPersonListUseCase()
-            if (priceIndex == -1) return@launch
-
             receipt = getReceiptUseCase(receiptId!!)!!
+
             if (priceIndex == -1) return@launch
             price = receipt.priceList[priceIndex].also { price ->
-                _valueLiveData.value = price.value
+                _valueLiveData.value = price.value.toString()
                 _nameLiveData.value = price.name
                 _selectedPersonIndexesLiveData.value =
                     wholePersonListLiveData.value!!.filter { person ->
@@ -61,7 +60,7 @@ class PriceViewModel(
     }
 
     fun changeValue(newValue: String) {
-        _valueLiveData.value = newValue.toInt()
+        _valueLiveData.value = newValue
     }
 
     fun changeSelectionForPerson(index: Int, checked: Boolean) {
@@ -86,7 +85,7 @@ class PriceViewModel(
                     receipt = receipt,
                     price = Price(
                         name = nameLiveData.value!!,
-                        value = valueLiveData.value!!,
+                        value = valueLiveData.value!!.toInt(),
                         persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->
                             wholePersonListLiveData.value!![personIndex]
                         }
@@ -100,7 +99,7 @@ class PriceViewModel(
                     index = index,
                     price = Price(
                         name = nameLiveData.value!!,
-                        value = valueLiveData.value!!,
+                        value = valueLiveData.value!!.toInt(),
                         persons = selectedPersonIndexesLiveData.value!!.map { personIndex ->
                             wholePersonListLiveData.value!![personIndex]
                         }
