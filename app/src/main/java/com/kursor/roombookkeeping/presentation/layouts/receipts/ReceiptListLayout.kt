@@ -1,22 +1,26 @@
 package com.kursor.roombookkeeping.presentation.layouts.receipts
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Receipt
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptListViewModel
@@ -34,18 +38,28 @@ fun ReceiptListLayout(
 ) {
 
     val receiptList = receiptListViewModel.receiptListLiveData.observeAsState(initial = emptyList())
+    val selectedReceipts =
+        receiptListViewModel.selectedReceiptsLiveData.observeAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            Button(onClick = {
                 navController.navigate(Layouts.ReceiptLayout.withArgs(-1))
             }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "AddReceipt")
+                Text(text = stringResource(id = R.string.add_receipt))
             }
         },
         topBar = {
             TopAppBar {
                 Spacer(modifier = Modifier.weight(1f, fill = true))
+                if (selectedReceipts.value.isNotEmpty()) {
+                    IconButton(onClick = { receiptListViewModel.deleteSelectedReceipts() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = "DeleteReceipts"
+                        )
+                    }
+                }
                 IconButton(
                     onClick = {
                         navController.navigate(Layouts.PersonListLayout.route)
@@ -57,11 +71,19 @@ fun ReceiptListLayout(
     ) {
         LazyColumn {
             items(receiptList.value) { receipt ->
-                ReceiptListItemLayout(
+                UnselectedReceiptListItemLayout(
                     receipt = receipt,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Layouts.ReceiptLayout.withArgs(receipt.id))
-                    }
+                    modifier = Modifier
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    receiptListViewModel.changeSelectionForReceipt(receipt)
+                                },
+                                onTap = {
+                                    navController.navigate(Layouts.ReceiptLayout.withArgs(receipt.id))
+                                }
+                            )
+                        }
                 )
             }
         }
@@ -69,11 +91,21 @@ fun ReceiptListLayout(
 }
 
 @Composable
-fun ReceiptListItemLayout(
+fun SelectableReceiptListItemLayout(
+    receipt: Receipt,
+    modifier: Modifier = Modifier,
+    selectionCriteria: () -> Boolean
+) {
+    if (selectionCriteria()) SelectedReceiptListItemLayout(receipt = receipt, modifier = modifier)
+    else UnselectedReceiptListItemLayout(receipt = receipt, modifier = modifier)
+}
+
+
+@Composable
+fun UnselectedReceiptListItemLayout(
     receipt: Receipt,
     modifier: Modifier = Modifier
 ) {
-
     Row(modifier = modifier) {
         Column(
             modifier = Modifier
@@ -120,7 +152,15 @@ fun ReceiptListItemLayout(
                 modifier = Modifier.fillMaxSize()
             )
         }
-
     }
+}
 
+@Composable
+fun SelectedReceiptListItemLayout(
+    receipt: Receipt,
+    modifier: Modifier = Modifier
+) {
+    Surface(color = Color.Black) {
+        UnselectedReceiptListItemLayout(receipt = receipt, modifier = modifier)
+    }
 }

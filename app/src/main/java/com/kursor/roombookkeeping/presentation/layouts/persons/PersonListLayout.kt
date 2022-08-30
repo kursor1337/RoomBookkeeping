@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
 import com.kursor.roombookkeeping.viewModels.person.PersonListViewModel
@@ -32,10 +32,10 @@ fun PersonListLayout(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            Button(onClick = {
                 navController.navigate(Layouts.PersonLayout.withArgs(-1))
             }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Person")
+                Text(text = stringResource(id = R.string.add_person))
             }
         },
         floatingActionButtonPosition = FabPosition.End

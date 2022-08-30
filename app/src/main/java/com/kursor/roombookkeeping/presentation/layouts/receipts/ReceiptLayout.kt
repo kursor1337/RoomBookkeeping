@@ -5,12 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,6 +17,7 @@ import com.kursor.roombookkeeping.calculateCommonPersons
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.SimpleTextField
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -40,9 +37,10 @@ fun ReceiptLayout(
     Scaffold(
         floatingActionButton = {
             Button(onClick = {
+                receiptViewModel.submit()
                 navController.navigate(
                     Layouts.PriceLayout.withArgs(
-                        receiptId = receiptId,
+                        receiptId = if (receiptId == -1L) receiptViewModel.receipt!!.id else receiptId,
                         priceIndex = -1
                     )
                 )
@@ -52,7 +50,11 @@ fun ReceiptLayout(
         }
     ) {
         Column {
-            TextField(value = name.value, onValueChange = receiptViewModel::changeName)
+            SimpleTextField(
+                value = name.value,
+                onValueChange = receiptViewModel::changeName,
+                placeholderText = stringResource(id = R.string.name_inanimate)
+            )
             Text(text = priceList.value.calculateCommonPersons().joinToString())
             LazyColumn {
                 itemsIndexed(priceList.value) { index, price ->
@@ -65,6 +67,9 @@ fun ReceiptLayout(
                                     priceIndex = index
                                 )
                             )
+                        },
+                        onDeletePriceButtonClick = {
+                            receiptViewModel.deletePrice(price)
                         }
                     )
                 }
@@ -77,27 +82,33 @@ fun ReceiptLayout(
             }
 
             Spacer(modifier = Modifier.height(12.dp))
-
-
         }
     }
 }
 
+
 @Composable
 fun PriceListItemLayout(
     price: Price,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDeletePriceButtonClick: (Price) -> Unit = { }
 ) {
-    Column(
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-    ) {
-        Text(text = price.name)
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = price.value.toString())
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = price.persons.joinToString())
+
+    Row {
+        Column(
+            modifier = modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Text(text = price.name)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = price.value.toString())
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = price.persons.joinToString())
+        }
+        IconButton(onClick = { onDeletePriceButtonClick(price) }) {
+
+        }
     }
 }
 

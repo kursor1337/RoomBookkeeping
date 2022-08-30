@@ -14,8 +14,11 @@ class ReceiptListViewModel(
     private val deleteReceiptUseCase: DeleteReceiptUseCase
 ) : ViewModel() {
 
-    private val _receiptListLiveData = MutableLiveData<List<Receipt>>()
+    private val _receiptListLiveData = MutableLiveData<List<Receipt>>(emptyList())
     val receiptListLiveData: LiveData<List<Receipt>> get() = _receiptListLiveData
+
+    private val _selectedReceiptsLiveData = MutableLiveData<List<Receipt>>(emptyList())
+    val selectedReceiptsLiveData: LiveData<List<Receipt>> get() = _selectedReceiptsLiveData
 
     fun loadData() {
         viewModelScope.launch {
@@ -23,9 +26,32 @@ class ReceiptListViewModel(
         }
     }
 
+    fun selectReceipt(receipt: Receipt) {
+        _selectedReceiptsLiveData.value = _selectedReceiptsLiveData.value?.plus(receipt)
+    }
+
+    fun unselectReceipt(receipt: Receipt) {
+        _selectedReceiptsLiveData.value = _selectedReceiptsLiveData.value?.minus(receipt)
+    }
+
+    fun changeSelectionForReceipt(receipt: Receipt) {
+        if (receipt in _selectedReceiptsLiveData.value!!) {
+            unselectReceipt(receipt = receipt)
+        } else selectReceipt(receipt = receipt)
+    }
+
     fun deleteReceipt(index: Int) {
         viewModelScope.launch {
             deleteReceiptUseCase(_receiptListLiveData.value!![index])
+            _receiptListLiveData.value = getReceiptListUseCase()
+        }
+    }
+
+    fun deleteSelectedReceipts() {
+        viewModelScope.launch {
+            selectedReceiptsLiveData.value!!.forEach {
+                deleteReceiptUseCase(receipt = it)
+            }
             _receiptListLiveData.value = getReceiptListUseCase()
         }
     }

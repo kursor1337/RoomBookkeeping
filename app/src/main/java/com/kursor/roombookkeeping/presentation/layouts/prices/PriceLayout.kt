@@ -1,20 +1,20 @@
 package com.kursor.roombookkeeping.presentation.layouts.prices
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.SimpleTextField
 import com.kursor.roombookkeeping.viewModels.price.PriceViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -39,50 +39,56 @@ fun PriceLayout(
 
 
     Column {
-        Row {
-            Column {
-                TextField(
-                    value = name.value,
-                    onValueChange = priceViewModel::changeName,
-                    placeholder = { Text(text = stringResource(id = R.string.name_inanimate)) }
-                )
+        SimpleTextField(
+            value = name.value,
+            onValueChange = priceViewModel::changeName,
+            placeholderText = stringResource(id = R.string.name_inanimate),
+            modifier = Modifier.fillMaxWidth()
+        )
 
-                TextField(
-                    value = value.value.toString(),
-                    onValueChange = priceViewModel::changeValue,
-                    placeholder = { Text(text = stringResource(id = R.string.price_value)) }
-                )
-            }
-            Column {
-                LazyColumn {
-                    itemsIndexed(wholePersonList.value) { index, person ->
-                        CheckboxRow(
-                            text = person.name,
-                            modifier = Modifier.fillMaxWidth(),
-                            onCheckedChange = {
-                                priceViewModel.changeSelectionForPerson(
-                                    index = index,
-                                    checked = it
-                                )
-                            }
+        SimpleTextField(
+            value = value.value.toString(),
+            onValueChange = priceViewModel::changeValue,
+            placeholderText = stringResource(id = R.string.price_value),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        LazyColumn {
+            itemsIndexed(wholePersonList.value) { index, person ->
+                CheckboxRow(
+                    text = person.name,
+                    modifier = Modifier.fillMaxWidth(),
+                    onCheckedChange = {
+                        priceViewModel.changeSelectionForPerson(
+                            index = index,
+                            checked = it
                         )
                     }
-                }
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        navController.navigate(Layouts.PersonLayout.withArgs(-1))
-                    }) {
-                    Text(text = stringResource(id = R.string.create_new_person))
-                }
+                )
             }
-
         }
 
-        Button(onClick = {
-            priceViewModel.submit()
-            navController.popBackStack()
-        }) {
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            onClick = {
+                navController.navigate(Layouts.PersonLayout.withArgs(-1))
+            }) {
+            Text(
+                text = stringResource(id = R.string.create_new_person),
+                maxLines = 2
+            )
+        }
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            onClick = {
+                priceViewModel.submit()
+                navController.popBackStack()
+            }) {
             Text(text = stringResource(id = R.string.submit))
         }
     }
@@ -98,6 +104,11 @@ fun CheckboxRow(
         modifier = modifier
     ) {
         Checkbox(checked = true, onCheckedChange = onCheckedChange)
-        Text(text = text)
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
     }
 }

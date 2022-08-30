@@ -27,7 +27,13 @@ fun PersonLayout(
     val name = personViewModel.nameLiveData.observeAsState(initial = "")
 
     Column {
-        TextField(value = name.value, onValueChange = personViewModel::changeName)
+        TextField(
+            value = name.value, 
+            onValueChange = personViewModel::changeName,
+            placeholder = {
+                Text(text = stringResource(id = R.string.name_animate))
+            }
+        )
 
         Button(onClick = {
             personViewModel.submit()

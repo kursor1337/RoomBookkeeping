@@ -5,4 +5,7 @@
     <string name="submit">Submit</string>
     <string name="create_new_person">Create new person</string>
     <string name="add_price">Add price</string>
+    <string name="add_person">Add person</string>
+    <string name="add_receipt">Add receipt</string>
+    <string name="name_animate">Name</string>
 </resources>

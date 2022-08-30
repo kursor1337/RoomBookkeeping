@@ -13,6 +13,7 @@ import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
+import com.kursor.roombookkeeping.viewModels.ViewModelBuffer
 import kotlinx.coroutines.launch
 
 class PriceViewModel(
@@ -42,6 +43,8 @@ class PriceViewModel(
         viewModelScope.launch {
             _wholePersonListLiveData.value = getPersonListUseCase()
             receipt = getReceiptUseCase(receiptId!!)!!
+
+            if (receiptId == -1L) return@launch
 
             if (priceIndex == -1) return@launch
             price = receipt.priceList[priceIndex].also { price ->

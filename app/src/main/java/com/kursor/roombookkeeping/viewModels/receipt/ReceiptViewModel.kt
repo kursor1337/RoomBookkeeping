@@ -30,7 +30,7 @@ class ReceiptViewModel(
     private val _outcomesLiveData = MutableLiveData<Map<Person, Double>>()
     val outcomesLiveData: LiveData<Map<Person, Double>> get() = _outcomesLiveData
 
-    private var receipt: Receipt? = null
+    var receipt: Receipt? = null
 
     fun loadData(receiptId: Long) {
         if (receiptId == -1L) return
@@ -65,8 +65,11 @@ class ReceiptViewModel(
                         name = nameLiveData.value!!,
                         dateTime = Date(current),
                         priceList = priceListLiveData.value!!
-                    )
+                    ).also {
+                        receipt = it
+                    }
                 )
+                receipt = getReceiptUseCase(current)
             } else {
                 updateReceiptUseCase(
                     Receipt(
@@ -74,7 +77,9 @@ class ReceiptViewModel(
                         name = nameLiveData.value!!,
                         dateTime = receipt!!.dateTime,
                         priceList = priceListLiveData.value!!
-                    )
+                    ).also {
+                        receipt = it
+                    }
                 )
             }
         }
