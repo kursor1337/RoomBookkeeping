@@ -4,12 +4,13 @@ import androidx.room.TypeConverter
 import com.kursor.roombookkeeping.model.Price
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Types
+import java.lang.reflect.Type
 
 class PriceListTypeConverter {
 
-    val priceListType = Types.newParameterizedType(List::class.java, Price::class.java)
+    private val priceListType: Type = Types.newParameterizedType(List::class.java, Price::class.java)
 
-    val adapter: JsonAdapter<List<Price>> = moshi.adapter(priceListType)
+    private val adapter: JsonAdapter<List<Price>> = moshi.adapter(priceListType)
 
     @TypeConverter
     fun fromPriceToString(priceList: List<Price>): String = adapter.toJson(priceList)

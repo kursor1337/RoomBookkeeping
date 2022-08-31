@@ -3,7 +3,6 @@ package com.kursor.roombookkeeping.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import java.util.*
 

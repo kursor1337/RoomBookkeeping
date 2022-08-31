@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -72,8 +71,8 @@ fun ReceiptLayout(
                 )
                 if (priceList.value.isEmpty()) {
                     Text(
-                        text = if (priceList.value.isEmpty()) "No prices?"
-                        else "Between: " + priceList.value
+                        text = if (priceList.value.isEmpty()) stringResource(R.string.no_prices_message)
+                        else stringResource(R.string.between) + ": " + priceList.value
                             .calculateCommonPersons().joinToString {
                                 it.name
                             },
@@ -119,7 +118,6 @@ fun ReceiptLayout(
                 PersonOutcomesLayout(
                     personOutcomesMap = outcomes.value
                 )
-
             }
         }
 

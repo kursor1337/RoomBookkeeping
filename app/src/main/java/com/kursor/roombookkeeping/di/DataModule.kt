@@ -1,8 +1,6 @@
 package com.kursor.roombookkeeping.di
 
-import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.kursor.roombookkeeping.data.database.Database
 import com.kursor.roombookkeeping.data.repositories.PersonRepositoryImpl
 import com.kursor.roombookkeeping.data.repositories.ReceiptRepositoryImpl

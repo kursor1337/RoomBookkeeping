@@ -1,6 +1,5 @@
 package com.kursor.roombookkeeping.presentation.special
 
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost

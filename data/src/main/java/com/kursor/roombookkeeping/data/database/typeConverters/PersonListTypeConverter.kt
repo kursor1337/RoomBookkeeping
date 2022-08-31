@@ -1,20 +1,18 @@
 package com.kursor.roombookkeeping.data.database.typeConverters
 
-import android.app.Person
-import androidx.room.Entity
 import androidx.room.TypeConverter
 import com.kursor.roombookkeeping.data.database.entities.PersonEntity
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.lang.reflect.Type
 
 class PersonListTypeConverter {
 
 
-    val personListType = Types.newParameterizedType(List::class.java, PersonEntity::class.java)
+    private val personListType: Type =
+        Types.newParameterizedType(List::class.java, PersonEntity::class.java)
 
-    val adapter: JsonAdapter<List<PersonEntity>> = moshi.adapter(personListType)
+    private val adapter: JsonAdapter<List<PersonEntity>> = moshi.adapter(personListType)
 
 
     @TypeConverter

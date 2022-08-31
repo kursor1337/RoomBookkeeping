@@ -6,7 +6,7 @@ import com.kursor.roombookkeeping.presentation.layouts.Layouts.Args.RECEIPT_ID
 
 sealed class Layouts(val start: String, vararg args: String) {
 
-    val route = start + args.map { "/{$it}" }.joinToString("")
+    val route = start + args.joinToString("") { "/{$it}" }
 
     object SplashLayout : Layouts(start = "SplashLayout")
 

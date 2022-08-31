@@ -14,12 +14,9 @@ import kotlinx.coroutines.delay
 fun NothingImportantLayout(
     navController: NavController
 ) {
-
-    var andreyShown = true
     var andreyAlphaState by remember {
         mutableStateOf(0f)
     }
-    var shveinShown = false
     var shveinAlphaState by remember {
         mutableStateOf(0f)
     }

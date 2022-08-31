@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.roombookkeeping.domain.usecases.CalculateOutcomesUseCase
-import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.CreateReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.EditReceiptUseCase
+import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt

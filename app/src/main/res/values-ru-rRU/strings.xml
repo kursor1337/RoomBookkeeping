@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RoomBookkeeping</string>
+    <string name="name_inanimate">Название</string>
+    <string name="price_value">Цена</string>
+    <string name="submit">Сохранить</string>
+    <string name="create_new_person">Создать человека</string>
+    <string name="add_price">Добавить цену</string>
+    <string name="add_person">Добавить человека</string>
+    <string name="add_receipt">Добавить чек</string>
+    <string name="name_animate">Имя</string>
+    <string name="_for">Для</string>
+    <string name="no_prices_message">No prices?</string>
+    <string name="between">Между</string>
+</resources>

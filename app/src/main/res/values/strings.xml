@@ -2,11 +2,13 @@
     <string name="app_name">RoomBookkeeping</string>
     <string name="name_inanimate">Name</string>
     <string name="price_value">Value</string>
-    <string name="submit">Submit</string>
+    <string name="submit">Save</string>
     <string name="create_new_person">Create new person</string>
     <string name="add_price">Add price</string>
     <string name="add_person">Add person</string>
     <string name="add_receipt">Add receipt</string>
     <string name="name_animate">Name</string>
     <string name="_for">For</string>
+    <string name="no_prices_message">No prices?</string>
+    <string name="between">Between</string>
 </resources>

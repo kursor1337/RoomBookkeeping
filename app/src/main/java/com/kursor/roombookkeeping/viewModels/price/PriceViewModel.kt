@@ -5,15 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.roombookkeeping.domain.usecases.person.GetPersonListUseCase
-import com.kursor.roombookkeeping.domain.usecases.price.AddPersonToPriceUseCase
-import com.kursor.roombookkeeping.domain.usecases.price.DeletePersonFromPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.price.EditPriceUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.AddPriceToReceiptUseCase
 import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
-import com.kursor.roombookkeeping.viewModels.ViewModelBuffer
 import kotlinx.coroutines.launch
 
 class PriceViewModel(
@@ -35,8 +32,8 @@ class PriceViewModel(
     private val _wholePersonListLiveData = MutableLiveData<List<Person>>(emptyList())
     val wholePersonListLiveData: LiveData<List<Person>> get() = _wholePersonListLiveData
 
-    lateinit var receipt: Receipt
-    var price: Price? = null
+    private lateinit var receipt: Receipt
+    private var price: Price? = null
 
     fun loadData(receiptId: Long, priceIndex: Int) {
 
