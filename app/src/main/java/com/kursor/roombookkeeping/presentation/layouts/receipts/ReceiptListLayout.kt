@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Receipt
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.ListItemLayout
 import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptListViewModel
 import org.koin.androidx.compose.getViewModel
@@ -69,35 +70,29 @@ fun ReceiptListLayout(
     ) {
         LazyColumn {
             itemsIndexed(receiptList.value) { index, receipt ->
-                if (index == 0) Divider(
-                    color = MaterialTheme.colors.secondary,
-                    thickness = 1.dp
-                )
-                SelectableReceiptListItemLayout(
-                    receipt = receipt,
-                    modifier = Modifier
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onLongPress = {
-                                    receiptListViewModel.changeSelectionForReceipt(receipt)
-                                },
-                                onTap = {
-                                    if (selectedReceipts.value.isEmpty())
-                                        navController.navigate(
-                                            Layouts.ReceiptLayout.withArgs(
-                                                receipt.id
+                ListItemLayout(index = index) {
+                    SelectableReceiptListItemLayout(
+                        receipt = receipt,
+                        modifier = Modifier
+                            .pointerInput(Unit) {
+                                detectTapGestures(
+                                    onLongPress = {
+                                        receiptListViewModel.changeSelectionForReceipt(receipt)
+                                    },
+                                    onTap = {
+                                        if (selectedReceipts.value.isEmpty())
+                                            navController.navigate(
+                                                Layouts.ReceiptLayout.withArgs(
+                                                    receipt.id
+                                                )
                                             )
-                                        )
-                                    else receiptListViewModel.changeSelectionForReceipt(receipt)
-                                }
-                            )
-                        },
-                    selectionCriteria = { receipt in selectedReceipts.value }
-                )
-                Divider(
-                    color = MaterialTheme.colors.secondary,
-                    thickness = 1.dp
-                )
+                                        else receiptListViewModel.changeSelectionForReceipt(receipt)
+                                    }
+                                )
+                            },
+                        selectionCriteria = { receipt in selectedReceipts.value }
+                    )
+                }
             }
         }
     }

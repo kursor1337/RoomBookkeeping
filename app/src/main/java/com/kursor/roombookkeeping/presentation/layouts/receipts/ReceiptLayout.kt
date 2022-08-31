@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,6 +20,7 @@ import com.kursor.roombookkeeping.calculateCommonPersons
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.ListItemLayout
 import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.compose.getViewModel
@@ -54,7 +56,9 @@ fun ReceiptLayout(
         },
         topBar = { RoomBookkeepingTopAppBar(navController = navController) }
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.padding(8.dp)
+        ) {
             item {
                 OutlinedTextField(
                     value = name.value,
@@ -64,6 +68,7 @@ fun ReceiptLayout(
                     },
                     modifier = Modifier
                         .padding(4.dp)
+                        .fillMaxWidth()
                 )
                 if (priceList.value.isEmpty()) {
                     Text(
@@ -80,20 +85,26 @@ fun ReceiptLayout(
                 }
             }
             itemsIndexed(priceList.value) { index, price ->
-                PriceListItemLayout(
-                    price = price,
-                    modifier = Modifier.clickable {
-                        navController.navigate(
-                            Layouts.PriceLayout.withArgs(
-                                receiptId = receiptId,
-                                priceIndex = index
-                            )
+                Column {
+                    ListItemLayout(index = index) {
+                        PriceListItemLayout(
+                            price = price,
+                            modifier = Modifier.clickable {
+                                navController.navigate(
+                                    Layouts.PriceLayout.withArgs(
+                                        receiptId = receiptId,
+                                        priceIndex = index
+                                    )
+                                )
+                            },
+                            onDeletePriceButtonClick = {
+                                receiptViewModel.deletePrice(price)
+                            }
                         )
-                    },
-                    onDeletePriceButtonClick = {
-                        receiptViewModel.deletePrice(price)
                     }
-                )
+
+                }
+
             }
 
             item {
@@ -106,9 +117,7 @@ fun ReceiptLayout(
 
                 Spacer(modifier = Modifier.height(12.dp))
                 PersonOutcomesLayout(
-                    personOutcomesMap = outcomes.value,
-                    modifier = Modifier
-                        .padding(12.dp)
+                    personOutcomesMap = outcomes.value
                 )
 
             }
@@ -124,48 +133,40 @@ fun PriceListItemLayout(
     modifier: Modifier = Modifier,
     onDeletePriceButtonClick: (Price) -> Unit = { }
 ) {
-
-    Surface(
-        shape = MaterialTheme.shapes.large,
-        color = MaterialTheme.colors.surface,
-        modifier = Modifier.padding(2.dp)
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Max)
-                .padding(
-                    horizontal = 8.dp,
-                    vertical = 4.dp
-                )
-        ) {
-            Column {
-                Text(text = price.name)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = price.value.toString())
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Text(
-                text = stringResource(id = R.string._for) + ": " + price.persons.joinToString { it.name },
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(4.dp)
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Max)
+            .padding(
+                horizontal = 8.dp,
+                vertical = 4.dp
             )
+    ) {
+        Column {
+            Text(text = price.name)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = price.value.toString())
+        }
+        Spacer(modifier = Modifier.width(16.dp))
 
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(
-                onClick = { onDeletePriceButtonClick(price) },
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Delete, contentDescription = "DeletePrice",
-                    modifier = Modifier.fillMaxHeight(0.5f)
-                )
-            }
+        Text(
+            text = stringResource(id = R.string._for) + ": " + price.persons.joinToString { it.name },
+            modifier = Modifier
+                .align(Alignment.Bottom)
+                .padding(4.dp)
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            onClick = { onDeletePriceButtonClick(price) },
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Delete, contentDescription = "DeletePrice",
+                modifier = Modifier.fillMaxHeight(0.5f)
+            )
         }
     }
-
 }
 
 @Composable

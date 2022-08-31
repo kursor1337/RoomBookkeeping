@@ -14,6 +14,7 @@ import com.kursor.roombookkeeping.presentation.layouts.persons.PersonListLayout
 import com.kursor.roombookkeeping.presentation.layouts.prices.PriceLayout
 import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptLayout
 import com.kursor.roombookkeeping.presentation.layouts.receipts.ReceiptListLayout
+import com.kursor.roombookkeeping.presentation.special.dontGoHere.NothingImportantLayout
 
 @Composable
 fun MainLayout() {
@@ -82,6 +83,12 @@ fun MainLayout() {
                 navController = navController,
                 personId = personId
             )
+        }
+        
+        composable(
+            route = "nothingImportantHere"
+        ) {
+            NothingImportantLayout(navController = navController)
         }
 
     }

@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.ListItemLayout
 import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
 import com.kursor.roombookkeeping.viewModels.person.PersonListViewModel
 import org.koin.androidx.compose.getViewModel
@@ -43,11 +44,14 @@ fun PersonListLayout(
     ) {
         LazyColumn {
             itemsIndexed(personList.value) { index, person ->
-                PersonListItemLayout(
-                    person = person,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Layouts.PersonLayout.withArgs(person.id))
-                    })
+                ListItemLayout(index = index) {
+                    PersonListItemLayout(
+                        person = person,
+                        modifier = Modifier.clickable {
+                            navController.navigate(Layouts.PersonLayout.withArgs(person.id))
+                        })
+                }
+
             }
         }
     }
