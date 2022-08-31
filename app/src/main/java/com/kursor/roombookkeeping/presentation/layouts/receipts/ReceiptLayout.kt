@@ -21,6 +21,7 @@ import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
 import com.kursor.roombookkeeping.presentation.special.ListItemLayout
 import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
+import com.kursor.roombookkeeping.viewModels.ReceiptViewModelBuffer
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -42,10 +43,9 @@ fun ReceiptLayout(
     Scaffold(
         floatingActionButton = {
             Button(onClick = {
-                receiptViewModel.submit()
                 navController.navigate(
                     Layouts.PriceLayout.withArgs(
-                        receiptId = if (receiptId == -1L) receiptViewModel.receipt!!.id else receiptId,
+                        receiptId = receiptId,
                         priceIndex = -1
                     )
                 )
@@ -89,6 +89,11 @@ fun ReceiptLayout(
                         PriceListItemLayout(
                             price = price,
                             modifier = Modifier.clickable {
+                                if (receiptId == -1L) {
+                                    ReceiptViewModelBuffer.priceList =
+                                        receiptViewModel.priceListLiveData.value?.toMutableList()
+                                            ?: mutableListOf()
+                                }
                                 navController.navigate(
                                     Layouts.PriceLayout.withArgs(
                                         receiptId = receiptId,

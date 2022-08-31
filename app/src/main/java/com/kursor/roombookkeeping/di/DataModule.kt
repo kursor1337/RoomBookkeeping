@@ -23,7 +23,10 @@ val dataModule = module {
     single { get<Database>().receiptDao() }
 
     single<ReceiptRepository> {
-        ReceiptRepositoryImpl(receiptDao = get())
+        ReceiptRepositoryImpl(
+            receiptDao = get(),
+            personDao = get()
+        )
     }
 
     single<PersonRepository> {

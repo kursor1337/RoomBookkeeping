@@ -18,14 +18,14 @@ class PersonRepositoryImpl(
 
     override suspend fun delete(person: Person) = personDao.delete(person.convertToDatabaseEntity())
 
-    private fun PersonEntity.convertToModelEntity(): Person = Person(
-        id = this.id,
-        name = this.name
-    )
-
-    private fun Person.convertToDatabaseEntity(): PersonEntity = PersonEntity(
-        id = this.id,
-        name = this.name
-    )
-
 }
+
+fun PersonEntity.convertToModelEntity(): Person = Person(
+    id = this.id,
+    name = this.name
+)
+
+fun Person.convertToDatabaseEntity(): PersonEntity = PersonEntity(
+    id = this.id,
+    name = this.name
+)

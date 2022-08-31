@@ -11,6 +11,7 @@ import com.kursor.roombookkeeping.domain.usecases.receipt.crud.GetReceiptUseCase
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
+import com.kursor.roombookkeeping.viewModels.ReceiptViewModelBuffer
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -33,7 +34,10 @@ class ReceiptViewModel(
     var receipt: Receipt? = null
 
     fun loadData(receiptId: Long) {
-        if (receiptId == -1L) return
+        if (receiptId == -1L) {
+            _priceListLiveData.value = ReceiptViewModelBuffer.priceList
+            return
+        }
         viewModelScope.launch {
             receipt = getReceiptUseCase(receiptId)!!
             _nameLiveData.value = receipt!!.name
