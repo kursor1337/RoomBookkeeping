@@ -22,7 +22,7 @@ class ReceiptListViewModel(
 
     fun loadData() {
         viewModelScope.launch {
-            _receiptListLiveData.value = getReceiptListUseCase()!!
+            _receiptListLiveData.value = getReceiptListUseCase()
         }
     }
 

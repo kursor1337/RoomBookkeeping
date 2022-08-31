@@ -16,13 +16,13 @@ import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Person
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
 import com.kursor.roombookkeeping.viewModels.person.PersonListViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PersonListLayout(
     navController: NavController,
-    scaffoldState: ScaffoldState,
     personListViewModel: PersonListViewModel = getViewModel<PersonListViewModel>().also {
         it.loadData()
     },
@@ -38,7 +38,8 @@ fun PersonListLayout(
                 Text(text = stringResource(id = R.string.add_person))
             }
         },
-        floatingActionButtonPosition = FabPosition.End
+        floatingActionButtonPosition = FabPosition.End,
+        topBar = { RoomBookkeepingTopAppBar(navController = navController) }
     ) {
         LazyColumn {
             itemsIndexed(personList.value) { index, person ->

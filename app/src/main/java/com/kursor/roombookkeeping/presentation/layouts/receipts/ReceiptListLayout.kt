@@ -1,10 +1,9 @@
 package com.kursor.roombookkeeping.presentation.layouts.receipts
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -23,6 +22,7 @@ import androidx.navigation.NavController
 import com.kursor.roombookkeeping.R
 import com.kursor.roombookkeeping.model.Receipt
 import com.kursor.roombookkeeping.presentation.layouts.Layouts
+import com.kursor.roombookkeeping.presentation.special.RoomBookkeepingTopAppBar
 import com.kursor.roombookkeeping.viewModels.receipt.ReceiptListViewModel
 import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
@@ -31,7 +31,6 @@ import java.util.*
 @Composable
 fun ReceiptListLayout(
     navController: NavController,
-    scaffoldState: ScaffoldState,
     receiptListViewModel: ReceiptListViewModel = getViewModel<ReceiptListViewModel>().also {
         it.loadData()
     }
@@ -50,8 +49,7 @@ fun ReceiptListLayout(
             }
         },
         topBar = {
-            TopAppBar {
-                Spacer(modifier = Modifier.weight(1f, fill = true))
+            RoomBookkeepingTopAppBar(navController = navController) {
                 if (selectedReceipts.value.isNotEmpty()) {
                     IconButton(onClick = { receiptListViewModel.deleteSelectedReceipts() }) {
                         Icon(
@@ -70,7 +68,11 @@ fun ReceiptListLayout(
         }
     ) {
         LazyColumn {
-            items(receiptList.value) { receipt ->
+            itemsIndexed(receiptList.value) { index, receipt ->
+                if (index == 0) Divider(
+                    color = MaterialTheme.colors.secondary,
+                    thickness = 1.dp
+                )
                 SelectableReceiptListItemLayout(
                     receipt = receipt,
                     modifier = Modifier
@@ -91,6 +93,10 @@ fun ReceiptListLayout(
                             )
                         },
                     selectionCriteria = { receipt in selectedReceipts.value }
+                )
+                Divider(
+                    color = MaterialTheme.colors.secondary,
+                    thickness = 1.dp
                 )
             }
         }
@@ -117,25 +123,6 @@ fun UnselectedReceiptListItemLayout(
     Row(modifier = modifier) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
-        ) {
-            Text(
-                text = receipt.name,
-                style = TextStyle(
-                    fontSize = 22.sp
-                ),
-                color = textColor
-            )
-            Text(
-                text = receipt.priceList.sumOf { it.value }.toString(),
-                color = textColor
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Column(
-            modifier = Modifier
                 .width(IntrinsicSize.Max)
                 .padding(
                     horizontal = 12.dp,
@@ -144,7 +131,7 @@ fun UnselectedReceiptListItemLayout(
         ) {
             Text(
                 text = SimpleDateFormat(
-                    "hh:mm:ss",
+                    "hh:mm",
                     Locale.getDefault()
                 ).format(receipt.dateTime),
                 style = TextStyle(
@@ -168,7 +155,32 @@ fun UnselectedReceiptListItemLayout(
                 modifier = Modifier.fillMaxSize()
             )
         }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+        ) {
+            Text(
+                text = receipt.priceList.sumOf { it.value }.toString(),
+                style = TextStyle(
+                    fontSize = 22.sp
+                ),
+                color = textColor,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = receipt.name,
+                color = textColor,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
     }
+
+
 }
 
 @Composable
@@ -176,7 +188,7 @@ fun SelectedReceiptListItemLayout(
     receipt: Receipt,
     modifier: Modifier = Modifier
 ) {
-    Surface(color = MaterialTheme.colors.secondary) {
+    Surface(color = MaterialTheme.colors.surface) {
         UnselectedReceiptListItemLayout(
             receipt = receipt,
             modifier = modifier,

@@ -44,6 +44,17 @@ class ReceiptViewModel(
         }
     }
 
+    fun updateData(receiptId: Long) {
+        if (receiptId == -1L) return
+        viewModelScope.launch {
+            receipt = getReceiptUseCase(receiptId)!!
+            _priceListLiveData.value = receipt!!.priceList
+            _outcomesLiveData.value =
+                if (receipt != null) calculateOutcomesUseCase(receipt!!)
+                else emptyMap()
+        }
+    }
+
     fun changeName(name: String) {
         _nameLiveData.value = name
     }
@@ -51,6 +62,7 @@ class ReceiptViewModel(
     fun deletePrice(price: Price) {
         viewModelScope.launch {
             _priceListLiveData.value = _priceListLiveData.value!!.minus(price)
+            _outcomesLiveData.value = calculateOutcomesUseCase(priceListLiveData.value!!)
         }
 
     }

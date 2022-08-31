@@ -46,7 +46,7 @@ class PriceViewModel(
                 wholePersonListLiveData.value!!.mapIndexed { index, person ->
                     index
                 }
-            receipt = getReceiptUseCase(receiptId!!)!!
+            receipt = getReceiptUseCase(receiptId)!!
 
             if (receiptId == -1L) return@launch
 
