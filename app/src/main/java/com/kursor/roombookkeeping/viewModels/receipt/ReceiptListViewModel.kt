@@ -26,11 +26,11 @@ class ReceiptListViewModel(
         }
     }
 
-    fun selectReceipt(receipt: Receipt) {
+    private fun selectReceipt(receipt: Receipt) {
         _selectedReceiptsLiveData.value = _selectedReceiptsLiveData.value?.plus(receipt)
     }
 
-    fun unselectReceipt(receipt: Receipt) {
+    private fun unselectReceipt(receipt: Receipt) {
         _selectedReceiptsLiveData.value = _selectedReceiptsLiveData.value?.minus(receipt)
     }
 
@@ -52,6 +52,7 @@ class ReceiptListViewModel(
             selectedReceiptsLiveData.value!!.forEach {
                 deleteReceiptUseCase(receipt = it)
             }
+            _selectedReceiptsLiveData.value = emptyList()
             _receiptListLiveData.value = getReceiptListUseCase()
         }
     }
