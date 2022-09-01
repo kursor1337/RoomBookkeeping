@@ -11,4 +11,5 @@
     <string name="_for">For</string>
     <string name="no_prices_message">No prices?</string>
     <string name="between">Between</string>
+    <string name="only_numbers">Only numbers are allowed in this field</string>
 </resources>

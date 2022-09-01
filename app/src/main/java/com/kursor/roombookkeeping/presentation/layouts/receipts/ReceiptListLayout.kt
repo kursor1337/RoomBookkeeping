@@ -126,7 +126,7 @@ fun UnselectedReceiptListItemLayout(
         ) {
             Text(
                 text = SimpleDateFormat(
-                    "hh:mm",
+                    "HH:mm",
                     Locale.getDefault()
                 ).format(receipt.dateTime),
                 style = TextStyle(

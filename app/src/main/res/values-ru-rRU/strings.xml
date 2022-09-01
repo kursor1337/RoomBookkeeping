@@ -12,4 +12,5 @@
     <string name="_for">Для</string>
     <string name="no_prices_message">No prices?</string>
     <string name="between">Между</string>
+    <string name="only_numbers">Только цифры разрешены в этом поле</string>
 </resources>

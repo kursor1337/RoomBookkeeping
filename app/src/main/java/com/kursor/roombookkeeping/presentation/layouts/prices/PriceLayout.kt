@@ -1,5 +1,6 @@
 package com.kursor.roombookkeeping.presentation.layouts.prices
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,8 @@ fun PriceLayout(
         priceViewModel.wholePersonListLiveData.observeAsState(initial = emptyList())
     val selectedPersons =
         priceViewModel.selectedPersonIndexesLiveData.observeAsState(initial = emptyList())
+
+    val context = LocalContext.current
 
     Scaffold(
         topBar = { RoomBookkeepingTopAppBar(navController = navController) }
@@ -98,8 +102,15 @@ fun PriceLayout(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 onClick = {
-                    priceViewModel.submit()
-                    navController.popBackStack()
+                    val success = priceViewModel.submit()
+                    if (success) navController.popBackStack()
+                    else {
+                        Toast.makeText(
+                            context,
+                            R.string.only_numbers,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }) {
                 Text(text = stringResource(id = R.string.submit))
             }

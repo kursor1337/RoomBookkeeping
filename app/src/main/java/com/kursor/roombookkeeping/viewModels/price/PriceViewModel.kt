@@ -14,6 +14,7 @@ import com.kursor.roombookkeeping.model.Price
 import com.kursor.roombookkeeping.model.Receipt
 import com.kursor.roombookkeeping.viewModels.ReceiptViewModelBuffer
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class PriceViewModel(
     val addPriceToReceiptUseCase: AddPriceToReceiptUseCase,
@@ -104,7 +105,12 @@ class PriceViewModel(
         _selectedPersonIndexesLiveData.value = _selectedPersonIndexesLiveData.value!!.minus(index)
     }
 
-    fun submit() {
+    fun submit(): Boolean {
+        try {
+            valueLiveData.value!!.toInt()
+        } catch (e: Exception) {
+            return false
+        }
         viewModelScope.launch {
             when (mode) {
                 Mode.ADD_NEW_TO_NEW -> {
@@ -159,6 +165,7 @@ class PriceViewModel(
                 }
             }
         }
+        return true
     }
 
     private fun getMode(receiptId: Long, priceIndex: Int): Mode {
