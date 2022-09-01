@@ -8,9 +8,27 @@ So, if only one person bought all of this, it becomes very hard to calculate how
 
 ### Here are some screenshots of the app
 
-<img src = readme-pictures/img_4.png width = 300>
-<img src = readme-pictures/img_3.png width = 300>
-<img src = readme-pictures/img_2.png width = 300>
-<img src = readme-pictures/img_1.png width = 300>
-<img src = readme-pictures/img_6.png width = 300>
-<img src = readme-pictures/img_5.png width = 300>
+<table>
+  <tr>
+    <td>
+      <img src = readme-pictures/img_4.png width = 300>
+    </td>
+    <td>
+      <img src = readme-pictures/img_3.png width = 300>
+    </td>
+  </tr>
+    <td>
+      <img src = readme-pictures/img_2.png width = 300>
+    </td>
+    <td>
+      <img src = readme-pictures/img_1.png width = 300>
+    </td>
+  <tr>
+     <td>
+      <img src = readme-pictures/img_6.png width = 300>
+    </td>
+    <td>
+      <img src = readme-pictures/img_5.png width = 300>
+    </td>
+  </tr>
+</table>
