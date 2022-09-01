@@ -1,4 +1,7 @@
 # RoomBookkeeping
+
+**Current release -> [1.0](https://github.com/kursor1337/RoomBookkeeping/releases/tag/1.0-release)**
+
 **App to manage room's bookkeeping (who owns who and how much when buying smth)**
 
 This is an app that allows you to easily calculate yours and your roommates' outcomes when you are buying a lot of stuff and
