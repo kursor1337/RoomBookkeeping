@@ -6,7 +6,7 @@ a part of it is for every one of you, something one of your roommates bought onl
 
 So, if only one person bought all of this, it becomes very hard to calculate how much money everybody needs to return to him/her. My app can help with calculating that
 
-### Here are some screenshots of the app
+## Here are some screenshots of the app
 
 <table>
   <tr>
@@ -32,3 +32,14 @@ So, if only one person bought all of this, it becomes very hard to calculate how
     </td>
   </tr>
 </table>
+
+
+## Stack used
+* [Jetpack Compose](https://developer.android.com/jetpack/compose/)
+* [Compose Navigation](https://developer.android.com/jetpack/compose/navigation)
+* [Koin](https://insert-koin.io/)
+* [Room](https://developer.android.com/training/data-storage/room)
+* [Moshi](https://github.com/square/moshi)
+* [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html#documentation)
+* [MVVM (ViewModel and LiveData)](https://developer.android.com/topic/libraries/architecture/viewmodel)
+* [Clean Arch](https://developer.android.com/topic/architecture)
