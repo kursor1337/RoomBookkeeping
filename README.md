@@ -1,6 +1,6 @@
 # RoomBookkeeping
 
-**Current release -> [1.0](https://github.com/kursor1337/RoomBookkeeping/releases/tag/1.0-release)**
+**Current release -> [1.1](https://github.com/kursor1337/RoomBookkeeping/releases/tag/1.1-release)**
 
 **App to manage room's bookkeeping (who owns who and how much when buying smth)**
 
